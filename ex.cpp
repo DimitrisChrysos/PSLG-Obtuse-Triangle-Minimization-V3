@@ -565,6 +565,120 @@ void handle_methods(CDT& cdt,
 
 using namespace read_write_file;
 
+enum class InputCategory {
+  CONVEX_NO_CONSTR,
+  CONVEX_OPEN_CONSTR,
+  CONVEX_CLOSED_CONSTR,
+  NOT_CONVEX_PARALLEL,
+  NOT_CONVEX_NO_RULES
+};
+
+bool vertex_touches_boundary(CDT::Vertex_handle v) {
+  for (auto it = region_boundary_polygon.vertices_begin(); it != region_boundary_polygon.vertices_end(); ++it) {
+    if (v->point() == *it) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool vertex_connects_constained_edges(CDT& cdt, CDT::Vertex_handle v) {
+  int counter=0;
+  for (auto it = cdt.incident_edges(v); it != nullptr; ++it) {
+    if (cdt.is_constrained(*it)) {
+      counter++;
+    }
+  }
+  if (counter >= 2) {
+    return true;
+  }
+}
+
+CDT::Vertex_handle get_opposite_vertex(CDT& cdt, CDT::Vertex_handle v, Edge& e) {
+  CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
+  CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
+  if (equal_points(v->point(), vertex1->point())) {
+    return vertex2;
+  }
+  else {
+    return vertex1;
+  }
+}
+
+bool vertex_will_touch_boundary(CDT& cdt, CDT::Vertex_handle v, Edge e, int& count_vertex_touching_boundary) {
+  // if vertex touches boundary return true
+  if (vertex_touches_boundary(v)) {
+    count_vertex_touching_boundary++;
+    return true;
+  }
+
+  // if vertex doesn't touch boundary, check if it connects constrained edges
+  // if it connects, for each edge (except the on that originated from)
+  // check if the opposite vertex will touch the boundary
+  // if it does, return true
+  // if it doesn't, repeat the process for the opposite vertex 
+  
+  if (vertex_connects_constained_edges(cdt, v)) {
+    for (auto it = cdt.incident_edges(v); it != nullptr; ++it) {
+      if (cdt.is_constrained(*it)) {
+        Edge edge = *it;
+        if (!equal_edges(get_point_from_edge(e, 1), 
+                        get_point_from_edge(edge, 1), 
+                        get_point_from_edge(e, 1),
+                        get_point_from_edge(edge, 2))) {
+          CDT::Vertex_handle opposite_vertex = get_opposite_vertex(cdt, v, edge);
+          if (vertex_will_touch_boundary(cdt, opposite_vertex, edge, count_vertex_touching_boundary)) {
+            return true;
+          }
+        }
+      }
+    }
+  }
+
+
+  return false;
+}
+
+bool has_closed_constraints(CDT& cdt) {
+  int count_vertex_touching_boundary = 0;
+  for (const Edge& e : cdt.finite_edges()) {
+    if (cdt.is_constrained(e)) {
+      CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
+      CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
+      vertex_will_touch_boundary(cdt, vertex1, e, count_vertex_touching_boundary);
+      vertex_will_touch_boundary(cdt, vertex2, e, count_vertex_touching_boundary);
+    }
+  }
+  if (count_vertex_touching_boundary >= 2) {
+    return true;
+  }
+  return false;
+}
+
+bool has_parallel_edges(CDT& cdt) {
+
+  // implement the parallel edges check
+
+}
+
+InputCategory choose_input_category(CDT& cdt, Polygon_2& region_boundary_polygon, std::list<std::pair<int, int>>& additional_constraints) {
+  if (region_boundary_polygon.is_convex() && additional_constraints.empty()) {
+    return InputCategory::CONVEX_NO_CONSTR;
+  }
+  else if (region_boundary_polygon.is_convex() && !has_closed_constraints(cdt)) {
+    return InputCategory::CONVEX_OPEN_CONSTR;
+  }
+  else if (region_boundary_polygon.is_convex()) {
+    return InputCategory::CONVEX_CLOSED_CONSTR;
+  }
+  else if (!region_boundary_polygon.is_convex() && has_parallel_edges(cdt)) {
+    return InputCategory::NOT_CONVEX_PARALLEL;
+  }
+  else {
+    return InputCategory::NOT_CONVEX_NO_RULES;
+  }
+}
+
 int main(int argc, char *argv[]) {
   if (argc != 5) {
     std::cout << "Wrong number of arguments\n";
@@ -611,6 +725,9 @@ int main(int argc, char *argv[]) {
 
   // Create the region boundary polygon
   region_boundary_polygon = make_region_boundary_polygon(region_boundary, points);
+
+  // Find input category
+  InputCategory input_category = choose_input_category(cdt, region_boundary_polygon, additional_constraints);
 
   // Count the obtuse triangles
   std::cout << "Starting obtuse counter: " << count_obtuse_triangles(cdt) << std::endl;
