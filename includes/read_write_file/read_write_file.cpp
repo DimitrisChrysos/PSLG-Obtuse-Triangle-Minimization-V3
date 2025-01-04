@@ -39,7 +39,7 @@ std::string read_write_file::get_num_constraints(boost::property_tree::ptree roo
   return root.get<std::string>("num_constraints");
 }
 
-std::list<std::pair<int, int>> read_write_file::get_additional_constraints(boost::property_tree::ptree root, std::list<int> region_boundary) {
+std::list<std::pair<int, int>> read_write_file::get_additional_constraints(boost::property_tree::ptree root) {
   std::list<std::pair<int, int>> additional_constraints;
   for (boost::property_tree::ptree::value_type &row : root.get_child("additional_constraints")) {
     auto it = row.second.begin();
@@ -48,7 +48,10 @@ std::list<std::pair<int, int>> read_write_file::get_additional_constraints(boost
     int second = it->second.get_value<int>();
     additional_constraints.push_back(std::make_pair(first, second));
   }
+  return additional_constraints;
+}
 
+std::list<std::pair<int, int>> read_write_file::combine_constraints(std::list<int> region_boundary, std::list<std::pair<int, int>> additional_constraints) {
   // Add region_boundary to additional_constraints
   int prev = -1;
   int first;
@@ -65,7 +68,6 @@ std::list<std::pair<int, int>> read_write_file::get_additional_constraints(boost
 
   return additional_constraints;
 }
-
 
 std::string read_write_file::get_method(boost::property_tree::ptree root) {
   return root.get<std::string>("method");

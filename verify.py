@@ -9,11 +9,12 @@ import json
 
 
 # input_filepath = "input_ls.json"
-input_filepath = "test_instances_ls/instance_test_4.json"
+# input_filepath = "test_instances_ls/instance_test_4.json"
+input_filepath = "challenge_instances_cgshop25/point-set_40_ae33a7ea.instance.json"
 
 # output_filepath = "outputs/output_ls.json"
-output_filepath = "outputs/test_instances_ls/output4.json"
-
+# output_filepath = "outputs/test_instances_ls/output4.json"
+output_filepath = "outputs/output1.json"
 
 
 with open(input_filepath, 'r') as file:

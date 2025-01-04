@@ -29,7 +29,9 @@ namespace read_write_file {
 
     std::string get_num_constraints(boost::property_tree::ptree root);
 
-    std::list<std::pair<int, int>> get_additional_constraints(boost::property_tree::ptree root, std::list<int> region_boundary);
+    std::list<std::pair<int, int>> get_additional_constraints(boost::property_tree::ptree root);
+
+    std::list<std::pair<int, int>> combine_constraints(std::list<int> region_boundary, std::list<std::pair<int, int>> additional_constraints);
 
     std::string get_method(boost::property_tree::ptree root);
 

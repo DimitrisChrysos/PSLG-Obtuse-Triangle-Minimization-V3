@@ -575,23 +575,28 @@ enum class InputCategory {
 
 bool vertex_touches_boundary(CDT::Vertex_handle v) {
   for (auto it = region_boundary_polygon.vertices_begin(); it != region_boundary_polygon.vertices_end(); ++it) {
-    if (v->point() == *it) {
+    Point point = *it;
+    if (equal_points(v->point(), point)) {
       return true;
     }
   }
   return false;
 }
 
-bool vertex_connects_constained_edges(CDT& cdt, CDT::Vertex_handle v) {
-  int counter=0;
-  for (auto it = cdt.incident_edges(v); it != nullptr; ++it) {
-    if (cdt.is_constrained(*it)) {
-      counter++;
-    }
-  }
+bool vertex_connects_constrained_edges(CDT& cdt, CDT::Vertex_handle v) {
+  int counter = 0;
+  auto it = cdt.incident_edges(v);
+  auto start = it;
+  do {
+      if (cdt.is_constrained(*it)) {
+          counter++;
+      }
+      it++;
+  } while (it != start);
   if (counter >= 2) {
     return true;
   }
+  return false;
 }
 
 CDT::Vertex_handle get_opposite_vertex(CDT& cdt, CDT::Vertex_handle v, Edge& e) {
@@ -605,29 +610,44 @@ CDT::Vertex_handle get_opposite_vertex(CDT& cdt, CDT::Vertex_handle v, Edge& e) 
   }
 }
 
-bool vertex_will_touch_boundary(CDT& cdt, CDT::Vertex_handle v, Edge e, int& count_vertex_touching_boundary) {
-  // if vertex touches boundary return true
+class VertexTouchingBoundary {
+  public:
+    std::list<CDT::Vertex_handle> vertices_touching;
+    int count_vertex_touching_boundary;
+    VertexTouchingBoundary(std::list<CDT::Vertex_handle> vertices_touching, int count_vertex_touching_boundary) : 
+      vertices_touching(vertices_touching), count_vertex_touching_boundary(count_vertex_touching_boundary) {}
+};
+
+bool vertex_will_touch_boundary(CDT& cdt, CDT::Vertex_handle v, Edge e, VertexTouchingBoundary& vtb) {
+  // if vertex touches boundary (and not already recorded it) return true
+  std::cout << "vertex_will_touch_boundary\n";
   if (vertex_touches_boundary(v)) {
-    count_vertex_touching_boundary++;
+    for (CDT::Vertex_handle vertex : vtb.vertices_touching) {
+      if (equal_points(vertex->point(), v->point())) {
+        return false;
+      }
+    }
+    vtb.count_vertex_touching_boundary++;
+    vtb.vertices_touching.push_back(v);
     return true;
   }
 
   // if vertex doesn't touch boundary, check if it connects constrained edges
-  // if it connects, for each edge (except the on that originated from)
+  // if it connects, for each edge it connects (except the one that originated from)
   // check if the opposite vertex will touch the boundary
   // if it does, return true
   // if it doesn't, repeat the process for the opposite vertex 
   
-  if (vertex_connects_constained_edges(cdt, v)) {
+  if (vertex_connects_constrained_edges(cdt, v)) {
     for (auto it = cdt.incident_edges(v); it != nullptr; ++it) {
       if (cdt.is_constrained(*it)) {
         Edge edge = *it;
         if (!equal_edges(get_point_from_edge(e, 1), 
+                        get_point_from_edge(e, 2),
                         get_point_from_edge(edge, 1), 
-                        get_point_from_edge(e, 1),
                         get_point_from_edge(edge, 2))) {
           CDT::Vertex_handle opposite_vertex = get_opposite_vertex(cdt, v, edge);
-          if (vertex_will_touch_boundary(cdt, opposite_vertex, edge, count_vertex_touching_boundary)) {
+          if (vertex_will_touch_boundary(cdt, opposite_vertex, edge, vtb)) {
             return true;
           }
         }
@@ -639,18 +659,29 @@ bool vertex_will_touch_boundary(CDT& cdt, CDT::Vertex_handle v, Edge e, int& cou
   return false;
 }
 
+bool edge_not_on_boundary(Edge e) {
+  CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
+  CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
+  if (vertex_touches_boundary(vertex1) && vertex_touches_boundary(vertex2)) {
+    return false;
+  }
+  return true;
+}
+
+// If at least two vertex of the same "path" of constrained edges touch the boundary, return true
 bool has_closed_constraints(CDT& cdt) {
   int count_vertex_touching_boundary = 0;
+  VertexTouchingBoundary vtb(std::list<CDT::Vertex_handle>(), 0);
   for (const Edge& e : cdt.finite_edges()) {
-    if (cdt.is_constrained(e)) {
+    if (cdt.is_constrained(e) && edge_not_on_boundary(e)) {
       CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
       CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
-      vertex_will_touch_boundary(cdt, vertex1, e, count_vertex_touching_boundary);
-      vertex_will_touch_boundary(cdt, vertex2, e, count_vertex_touching_boundary);
+      vertex_will_touch_boundary(cdt, vertex1, e, vtb);
+      vertex_will_touch_boundary(cdt, vertex2, e, vtb);
+      if (vtb.count_vertex_touching_boundary >= 2) {
+        return true;
+      }
     }
-  }
-  if (count_vertex_touching_boundary >= 2) {
-    return true;
   }
   return false;
 }
@@ -658,10 +689,10 @@ bool has_closed_constraints(CDT& cdt) {
 bool has_parallel_edges(CDT& cdt) {
 
   // implement the parallel edges check
-
+  return false;
 }
 
-InputCategory choose_input_category(CDT& cdt, Polygon_2& region_boundary_polygon, std::list<std::pair<int, int>>& additional_constraints) {
+InputCategory choose_input_category(CDT& cdt, std::list<std::pair<int, int>>& additional_constraints) {
   if (region_boundary_polygon.is_convex() && additional_constraints.empty()) {
     return InputCategory::CONVEX_NO_CONSTR;
   }
@@ -680,7 +711,7 @@ InputCategory choose_input_category(CDT& cdt, Polygon_2& region_boundary_polygon
 }
 
 int main(int argc, char *argv[]) {
-  if (argc != 5) {
+  if (argc < 5 || argc > 6) {
     std::cout << "Wrong number of arguments\n";
     return 1;
   }
@@ -698,11 +729,24 @@ int main(int argc, char *argv[]) {
   std::list<int> points_y = get_points_y(root);
   std::list<int> region_boundary = get_region_boundary(root);
   std::string num_constraints = get_num_constraints(root);
-  std::list<std::pair<int, int>> additional_constraints = get_additional_constraints(root, region_boundary);
-  std::string method = get_method(root);
-  std::list<std::pair<std::string, double>> parameters = get_parameters(root);
-  boost::property_tree::ptree parameters_for_output = root.get_child("parameters");
-  bool delaunay = get_delaunay(root);
+  std::list<std::pair<int, int>> additional_constraints = get_additional_constraints(root);
+  std::list<std::pair<int, int>> constraints = combine_constraints(region_boundary, additional_constraints);
+  std::string method;
+  std::list<std::pair<std::string, double>> parameters;
+  boost::property_tree::ptree parameters_for_output;
+  bool delaunay;
+  if (argc == 5) {
+    method = get_method(root);
+    parameters = get_parameters(root);
+    parameters_for_output = root.get_child("parameters");
+    delaunay = get_delaunay(root);
+  }
+  else {
+    method = "local";
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
+    delaunay = true;
+  }
 
   // Create the Constrained Delaunay Triangulation (CDT)
   CDT cdt;
@@ -718,8 +762,8 @@ int main(int argc, char *argv[]) {
     it_y++;
   }
 
-  // Add the constrained edges from additional_constraints
-  for (const auto &constraint : additional_constraints) {
+  // Add the constrained edges from constraints
+  for (const auto &constraint : constraints) {
     cdt.insert_constraint(points[constraint.first], points[constraint.second]);
   }
 
@@ -727,7 +771,9 @@ int main(int argc, char *argv[]) {
   region_boundary_polygon = make_region_boundary_polygon(region_boundary, points);
 
   // Find input category
-  InputCategory input_category = choose_input_category(cdt, region_boundary_polygon, additional_constraints);
+  InputCategory input_category = choose_input_category(cdt, additional_constraints);
+  std::cout << "Input category: " << (int)input_category << std::endl;
+  return 0; //TODO: delete later
 
   // Count the obtuse triangles
   std::cout << "Starting obtuse counter: " << count_obtuse_triangles(cdt) << std::endl;

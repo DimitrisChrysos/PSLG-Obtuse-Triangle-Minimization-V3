@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DCGAL_USE_BASIC_VIEWER -DCGAL_USE_GMPXX=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB
 
-CXX_INCLUDES = -I"/home/dimitris/Documents/project emiris/project2/CGAL_Qt5_moc_and_resources_autogen/include" -I"/home/dimitris/Documents/project emiris/project2" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtOpenGL
+CXX_INCLUDES = -I"/home/dimitris/Documents/project emiris/project3/project-emiris-3/CGAL_Qt5_moc_and_resources_autogen/include" -I"/home/dimitris/Documents/project emiris/project3/project-emiris-3" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtOpenGL
 
 CXX_FLAGS = -g -g -fPIC -frounding-math -fPIC
 

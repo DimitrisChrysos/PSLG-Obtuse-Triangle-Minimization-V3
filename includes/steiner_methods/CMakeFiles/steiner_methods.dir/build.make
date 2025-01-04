@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/dimitris/Documents/project emiris/project2"
+CMAKE_SOURCE_DIR = "/home/dimitris/Documents/project emiris/project3/project-emiris-3"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/dimitris/Documents/project emiris/project2"
+CMAKE_BINARY_DIR = "/home/dimitris/Documents/project emiris/project3/project-emiris-3"
 
 # Include any dependencies generated for this target.
 include includes/steiner_methods/CMakeFiles/steiner_methods.dir/depend.make
@@ -72,16 +72,16 @@ include includes/steiner_methods/CMakeFiles/steiner_methods.dir/flags.make
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o: includes/steiner_methods/CMakeFiles/steiner_methods.dir/flags.make
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o: includes/steiner_methods/steiner_methods.cpp
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o: includes/steiner_methods/CMakeFiles/steiner_methods.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/dimitris/Documents/project emiris/project2/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o"
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o -MF CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o.d -o CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o -c "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods/steiner_methods.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o"
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o -MF CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o.d -o CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o -c "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/steiner_methods.cpp"
 
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/steiner_methods.dir/steiner_methods.cpp.i"
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods/steiner_methods.cpp" > CMakeFiles/steiner_methods.dir/steiner_methods.cpp.i
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/steiner_methods.cpp" > CMakeFiles/steiner_methods.dir/steiner_methods.cpp.i
 
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/steiner_methods.dir/steiner_methods.cpp.s"
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods/steiner_methods.cpp" -o CMakeFiles/steiner_methods.dir/steiner_methods.cpp.s
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/steiner_methods.cpp" -o CMakeFiles/steiner_methods.dir/steiner_methods.cpp.s
 
 # Object files for target steiner_methods
 steiner_methods_OBJECTS = \
@@ -93,19 +93,19 @@ steiner_methods_EXTERNAL_OBJECTS =
 includes/steiner_methods/libsteiner_methods.a: includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o
 includes/steiner_methods/libsteiner_methods.a: includes/steiner_methods/CMakeFiles/steiner_methods.dir/build.make
 includes/steiner_methods/libsteiner_methods.a: includes/steiner_methods/CMakeFiles/steiner_methods.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/dimitris/Documents/project emiris/project2/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libsteiner_methods.a"
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && $(CMAKE_COMMAND) -P CMakeFiles/steiner_methods.dir/cmake_clean_target.cmake
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/steiner_methods.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libsteiner_methods.a"
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && $(CMAKE_COMMAND) -P CMakeFiles/steiner_methods.dir/cmake_clean_target.cmake
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/steiner_methods.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/build: includes/steiner_methods/libsteiner_methods.a
 .PHONY : includes/steiner_methods/CMakeFiles/steiner_methods.dir/build
 
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/clean:
-	cd "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" && $(CMAKE_COMMAND) -P CMakeFiles/steiner_methods.dir/cmake_clean.cmake
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" && $(CMAKE_COMMAND) -P CMakeFiles/steiner_methods.dir/cmake_clean.cmake
 .PHONY : includes/steiner_methods/CMakeFiles/steiner_methods.dir/clean
 
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/depend:
-	cd "/home/dimitris/Documents/project emiris/project2" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/dimitris/Documents/project emiris/project2" "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" "/home/dimitris/Documents/project emiris/project2" "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods" "/home/dimitris/Documents/project emiris/project2/includes/steiner_methods/CMakeFiles/steiner_methods.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "/home/dimitris/Documents/project emiris/project3/project-emiris-3" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/dimitris/Documents/project emiris/project3/project-emiris-3" "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" "/home/dimitris/Documents/project emiris/project3/project-emiris-3" "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods" "/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/CMakeFiles/steiner_methods.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : includes/steiner_methods/CMakeFiles/steiner_methods.dir/depend
 

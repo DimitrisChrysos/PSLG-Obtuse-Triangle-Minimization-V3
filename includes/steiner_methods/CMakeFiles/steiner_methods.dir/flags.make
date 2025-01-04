@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I"/home/dimitris/Documents/project emiris/project2/includes/steiner_methods"
+CXX_INCLUDES = -I"/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods"
 
 CXX_FLAGS = 
 

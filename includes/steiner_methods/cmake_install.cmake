@@ -1,4 +1,4 @@
-# Install script for directory: /home/dimitris/Documents/project emiris/project2/includes/steiner_methods
+# Install script for directory: /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
