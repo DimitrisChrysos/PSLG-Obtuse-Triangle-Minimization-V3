@@ -30,6 +30,15 @@ namespace input_categories {
             VertexTouchingBoundary(std::list<CDT::Vertex_handle> vertices_explored, int count_vertex_touching_boundary) : 
                 vertices_explored(vertices_explored), count_vertex_touching_boundary(count_vertex_touching_boundary) {}
     };
+
+    class ExploreCycles {
+        public:
+            std::list<CDT::Vertex_handle> vertices_explored;
+            bool found_cycle;
+
+            ExploreCycles(std::list<CDT::Vertex_handle> vertices_explored, bool found_cycle) : 
+                vertices_explored(vertices_explored), found_cycle(found_cycle) {}
+    };
     
     // If the vertex is part of the boundary, return true
     bool vertex_touches_boundary(CDT::Vertex_handle v);
@@ -43,6 +52,9 @@ namespace input_categories {
     // Explore the vertex and check if itself or another vertex 
     // of a connected constrained edge touches the boundary
     void explore_vertex(CDT& cdt, CDT::Vertex_handle v, Edge e, VertexTouchingBoundary& vtb);
+
+    // Explore if we can find a cycle of constrained edges, starting from v (exculing region boundary)
+    void explore_cycles(CDT& cdt, CDT::Vertex_handle v, Edge e, ExploreCycles& ec);
 
     // If both vertices of a constrained edge touch the boundary, return true
     bool edge_on_boundary(Edge e);

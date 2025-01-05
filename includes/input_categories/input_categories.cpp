@@ -79,6 +79,43 @@ void input_categories::explore_vertex(CDT& cdt, CDT::Vertex_handle v, Edge e, Ve
   }
 }
 
+// Explore if we can find a cycle of constrained edges, starting from v (exculing region boundary)
+void input_categories::explore_cycles(CDT& cdt, CDT::Vertex_handle v, Edge e, ExploreCycles& ec) {
+
+  // if vertex touches the boundary, return
+  if (vertex_touches_boundary(v)) {
+    return;
+  }
+
+  // if vertex has already been explored, we found a cycle
+  for (CDT::Vertex_handle vertex : ec.vertices_explored) {
+    if (equal_points(vertex->point(), v->point())) {
+      ec.found_cycle = true;
+      return;
+    }
+  }
+
+  // Add the vertex to the list of explored vertices
+  ec.vertices_explored.push_back(v);
+
+  // If the vertex connects two constrained edges, explore the opposite vertex
+  auto it = cdt.incident_edges(v);
+  auto start = it;
+  do {
+      if (cdt.is_constrained(*it)) {
+        Edge edge = *it;
+        if (!equal_edges(get_point_from_edge(e, 1), 
+                        get_point_from_edge(e, 2),
+                        get_point_from_edge(edge, 1), 
+                        get_point_from_edge(edge, 2))) {
+          CDT::Vertex_handle opposite_vertex = get_opposite_vertex(cdt, v, edge);
+          explore_cycles(cdt, opposite_vertex, edge, ec);
+        }
+      }
+      it++;
+  } while (it != start);
+}
+
 // If both vertices of a constrained edge touch the boundary, return true
 bool input_categories::edge_on_boundary(Edge e) {
   CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
@@ -90,16 +127,23 @@ bool input_categories::edge_on_boundary(Edge e) {
 }
 
 // If at least two vertex of the same "path" of constrained edges touch the boundary, return true
+// If we find a cycle of constrained edges (without includeing region_boundary), return true
 bool input_categories::has_closed_constraints(CDT& cdt) {
 
-  VertexTouchingBoundary vtb(std::list<CDT::Vertex_handle>(), 0); // vtb -> vertex touching boundary
   for (const Edge& e : cdt.finite_edges()) {
+    VertexTouchingBoundary vtb(std::list<CDT::Vertex_handle>(), 0); // vtb -> vertex touching boundary
+    ExploreCycles ec(std::list<CDT::Vertex_handle>(), false); // ec -> explore cycles
     if (cdt.is_constrained(e) && !edge_on_boundary(e)) {
       CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
       CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
       explore_vertex(cdt, vertex1, e, vtb);
       explore_vertex(cdt, vertex2, e, vtb);
       if (vtb.count_vertex_touching_boundary >= 2) {
+        return true;
+      }
+      explore_cycles(cdt, vertex1, e, ec);
+      explore_cycles(cdt, vertex2, e, ec);
+      if (ec.found_cycle) {
         return true;
       }
     }
