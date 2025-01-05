@@ -31,12 +31,17 @@ namespace input_categories {
                 vertices_explored(vertices_explored), count_vertex_touching_boundary(count_vertex_touching_boundary) {}
     };
     
+    // If the vertex is part of the boundary, return true
     bool vertex_touches_boundary(CDT::Vertex_handle v);
 
+    // If the vertex connects two (or more) constrained edges, return true
     bool vertex_connects_constrained_edges(CDT& cdt, CDT::Vertex_handle v);
 
+    // Get the opposite vertex of an edge
     CDT::Vertex_handle get_opposite_vertex(CDT& cdt, CDT::Vertex_handle v, Edge& e);
-
+    
+    // Explore the vertex and check if itself or another vertex 
+    // of a connected constrained edge touches the boundary
     void explore_vertex(CDT& cdt, CDT::Vertex_handle v, Edge e, VertexTouchingBoundary& vtb);
 
     // If both vertices of a constrained edge touch the boundary, return true
@@ -45,8 +50,10 @@ namespace input_categories {
     // If at least two vertex of the same "path" of constrained edges touch the boundary, return true
     bool has_closed_constraints(CDT& cdt);
 
+    // If all the edges of the region boundary polygon are parallel (and it has no additional constraints), return true
     bool has_parallel_edges(CDT& cdt);
 
+    // Find the input category of the CDT
     InputCategory find_input_category(CDT& cdt, std::list<std::pair<int, int>>& additional_constraints);
 }
 

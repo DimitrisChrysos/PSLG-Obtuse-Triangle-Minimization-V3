@@ -86,4 +86,25 @@
 
 
 
+- Test if the input categorization works:
+    1. Convex no constr: 
+    ./opt_triangulation -i challenge_instances_cgshop25/point-set_40_ae33a7ea.instance.json -o outputs/output1.json -preselected_params
+
+    2. Convex open constr: 
+    ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon-exterior-20_10_ce9152de.instance.json -o outputs/output1.json -preselected_params
+
+    3. Convex closed constr: 
+    ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon-exterior_10_310dc6c7.instance.json -o outputs/output1.json -preselected_params
+
+    4. Not convex parallel: 
+    ./opt_triangulation -i challenge_instances_cgshop25/ortho_10_d2723dcc.instance.json -o outputs/output1.json -preselected_params
+
+    5. Not convex no rules: 
+    ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -preselected_params
+
+
+
+
+
+
 - github repo link: https://github.com/DimitrisChrysos/project-emiris.git
