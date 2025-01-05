@@ -207,6 +207,19 @@ steiner_methods/fast:
 	$(MAKE) $(MAKESILENT) -f includes/steiner_methods/CMakeFiles/steiner_methods.dir/build.make includes/steiner_methods/CMakeFiles/steiner_methods.dir/build
 .PHONY : steiner_methods/fast
 
+#=============================================================================
+# Target rules for targets named input_categories
+
+# Build rule for target.
+input_categories: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 input_categories
+.PHONY : input_categories
+
+# fast build rule for target.
+input_categories/fast:
+	$(MAKE) $(MAKESILENT) -f includes/input_categories/CMakeFiles/input_categories.dir/build.make includes/input_categories/CMakeFiles/input_categories.dir/build
+.PHONY : input_categories/fast
+
 CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.o: CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp.o
 .PHONY : CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.o
 
@@ -362,6 +375,7 @@ help:
 	@echo "... CGAL_Qt5_moc_and_resources_autogen"
 	@echo "... CGAL_Qt5_moc_and_resources"
 	@echo "... custom_cdt_class"
+	@echo "... input_categories"
 	@echo "... opt_triangulation"
 	@echo "... read_write_file"
 	@echo "... steiner_methods"

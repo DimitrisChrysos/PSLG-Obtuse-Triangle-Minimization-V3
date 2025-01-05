@@ -62,6 +62,11 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/input_categories/cmake_install.cmake")
+endif()
+
 if(CMAKE_INSTALL_COMPONENT)
   set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
 else()

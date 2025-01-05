@@ -96,6 +96,7 @@ opt_triangulation: includes/custom_cdt_class/libcustom_cdt_class.a
 opt_triangulation: includes/utils/libutils.a
 opt_triangulation: includes/read_write_file/libread_write_file.a
 opt_triangulation: includes/steiner_methods/libsteiner_methods.a
+opt_triangulation: includes/input_categories/libinput_categories.a
 opt_triangulation: libCGAL_Qt5_moc_and_resources.a
 opt_triangulation: /usr/lib/x86_64-linux-gnu/libgmpxx.so
 opt_triangulation: /usr/lib/x86_64-linux-gnu/libmpfr.so

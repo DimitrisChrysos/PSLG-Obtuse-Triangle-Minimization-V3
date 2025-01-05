@@ -15,3 +15,6 @@
 /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/CMakeFiles/steiner_methods.dir
 /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/CMakeFiles/edit_cache.dir
 /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/steiner_methods/CMakeFiles/rebuild_cache.dir
+/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/input_categories/CMakeFiles/input_categories.dir
+/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/input_categories/CMakeFiles/edit_cache.dir
+/home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/input_categories/CMakeFiles/rebuild_cache.dir

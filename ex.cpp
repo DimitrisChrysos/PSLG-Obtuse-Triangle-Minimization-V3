@@ -2,6 +2,7 @@
 #include "includes/utils/utils.hpp"
 #include "includes/read_write_file/read_write_file.hpp"
 #include "includes/steiner_methods/steiner_methods.hpp"
+#include "includes/input_categories/input_categories.hpp"
 #include <random>
 #include <chrono>
 
@@ -13,6 +14,7 @@ typedef CDT::Edge Edge;
 
 using namespace utils;
 using namespace steiner_methods;
+using namespace input_categories;
 
 // An ant is stored using the following class
 class effective_ant {
@@ -565,151 +567,6 @@ void handle_methods(CDT& cdt,
 
 using namespace read_write_file;
 
-enum class InputCategory {
-  CONVEX_NO_CONSTR,
-  CONVEX_OPEN_CONSTR,
-  CONVEX_CLOSED_CONSTR,
-  NOT_CONVEX_PARALLEL,
-  NOT_CONVEX_NO_RULES
-};
-
-bool vertex_touches_boundary(CDT::Vertex_handle v) {
-  for (auto it = region_boundary_polygon.vertices_begin(); it != region_boundary_polygon.vertices_end(); ++it) {
-    Point point = *it;
-    if (equal_points(v->point(), point)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-bool vertex_connects_constrained_edges(CDT& cdt, CDT::Vertex_handle v) {
-  int counter = 0;
-  auto it = cdt.incident_edges(v);
-  auto start = it;
-  do {
-      if (cdt.is_constrained(*it)) {
-          counter++;
-      }
-      it++;
-  } while (it != start);
-  if (counter >= 2) {
-    return true;
-  }
-  return false;
-}
-
-CDT::Vertex_handle get_opposite_vertex(CDT& cdt, CDT::Vertex_handle v, Edge& e) {
-  CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
-  CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
-  if (equal_points(v->point(), vertex1->point())) {
-    return vertex2;
-  }
-  else {
-    return vertex1;
-  }
-}
-
-class VertexTouchingBoundary {
-  public:
-    std::list<CDT::Vertex_handle> vertices_touching;
-    int count_vertex_touching_boundary;
-    VertexTouchingBoundary(std::list<CDT::Vertex_handle> vertices_touching, int count_vertex_touching_boundary) : 
-      vertices_touching(vertices_touching), count_vertex_touching_boundary(count_vertex_touching_boundary) {}
-};
-
-bool vertex_will_touch_boundary(CDT& cdt, CDT::Vertex_handle v, Edge e, VertexTouchingBoundary& vtb) {
-  // if vertex touches boundary (and not already recorded it) return true
-  std::cout << "vertex_will_touch_boundary\n";
-  if (vertex_touches_boundary(v)) {
-    for (CDT::Vertex_handle vertex : vtb.vertices_touching) {
-      if (equal_points(vertex->point(), v->point())) {
-        return false;
-      }
-    }
-    vtb.count_vertex_touching_boundary++;
-    vtb.vertices_touching.push_back(v);
-    return true;
-  }
-
-  // if vertex doesn't touch boundary, check if it connects constrained edges
-  // if it connects, for each edge it connects (except the one that originated from)
-  // check if the opposite vertex will touch the boundary
-  // if it does, return true
-  // if it doesn't, repeat the process for the opposite vertex 
-  
-  if (vertex_connects_constrained_edges(cdt, v)) {
-    for (auto it = cdt.incident_edges(v); it != nullptr; ++it) {
-      if (cdt.is_constrained(*it)) {
-        Edge edge = *it;
-        if (!equal_edges(get_point_from_edge(e, 1), 
-                        get_point_from_edge(e, 2),
-                        get_point_from_edge(edge, 1), 
-                        get_point_from_edge(edge, 2))) {
-          CDT::Vertex_handle opposite_vertex = get_opposite_vertex(cdt, v, edge);
-          if (vertex_will_touch_boundary(cdt, opposite_vertex, edge, vtb)) {
-            return true;
-          }
-        }
-      }
-    }
-  }
-
-
-  return false;
-}
-
-bool edge_not_on_boundary(Edge e) {
-  CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
-  CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
-  if (vertex_touches_boundary(vertex1) && vertex_touches_boundary(vertex2)) {
-    return false;
-  }
-  return true;
-}
-
-// If at least two vertex of the same "path" of constrained edges touch the boundary, return true
-bool has_closed_constraints(CDT& cdt) {
-  int count_vertex_touching_boundary = 0;
-  VertexTouchingBoundary vtb(std::list<CDT::Vertex_handle>(), 0);
-  for (const Edge& e : cdt.finite_edges()) {
-    if (cdt.is_constrained(e) && edge_not_on_boundary(e)) {
-      CDT::Vertex_handle vertex1 = get_vertex_from_edge(e, 1);
-      CDT::Vertex_handle vertex2 = get_vertex_from_edge(e, 2);
-      vertex_will_touch_boundary(cdt, vertex1, e, vtb);
-      vertex_will_touch_boundary(cdt, vertex2, e, vtb);
-      if (vtb.count_vertex_touching_boundary >= 2) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-bool has_parallel_edges(CDT& cdt) {
-
-  // implement the parallel edges check
-  return false;
-}
-
-InputCategory choose_input_category(CDT& cdt, std::list<std::pair<int, int>>& additional_constraints) {
-  if (region_boundary_polygon.is_convex() && additional_constraints.empty()) {
-    return InputCategory::CONVEX_NO_CONSTR;
-  }
-  else if (region_boundary_polygon.is_convex() && !has_closed_constraints(cdt)) {
-    return InputCategory::CONVEX_OPEN_CONSTR;
-  }
-  else if (region_boundary_polygon.is_convex()) {
-    return InputCategory::CONVEX_CLOSED_CONSTR;
-  }
-  else if (!region_boundary_polygon.is_convex() && has_parallel_edges(cdt)) {
-    return InputCategory::NOT_CONVEX_PARALLEL;
-  }
-  else {
-    return InputCategory::NOT_CONVEX_NO_RULES;
-  }
-}
-
 int main(int argc, char *argv[]) {
   if (argc < 5 || argc > 6) {
     std::cout << "Wrong number of arguments\n";
@@ -771,7 +628,7 @@ int main(int argc, char *argv[]) {
   region_boundary_polygon = make_region_boundary_polygon(region_boundary, points);
 
   // Find input category
-  InputCategory input_category = choose_input_category(cdt, additional_constraints);
+  InputCategory input_category = find_input_category(cdt, additional_constraints);
   std::cout << "Input category: " << (int)input_category << std::endl;
   return 0; //TODO: delete later
 

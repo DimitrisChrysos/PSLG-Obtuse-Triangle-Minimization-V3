@@ -370,7 +370,7 @@ bool utils::equal_points(Point a, Point b) {
   return false;
 }
 
-// Check if two sets of points are the same
+// Check if two sets of points are the same (for point a and point b)
 bool utils::equal_edges(Point a1, Point a2, Point b1, Point b2) {
   if ((equal_points(a1, b1) && equal_points(a2, b2)) || 
       (equal_points(a1, b2) && equal_points(a2, b1))) {
@@ -379,14 +379,14 @@ bool utils::equal_edges(Point a1, Point a2, Point b1, Point b2) {
   return false;
 }
 
-// Get point from edge
+// Get point from edge (point_number = 1 or 2)
 Point utils::get_point_from_edge(Edge e, int point_number) {
   CDT::Face_handle face = e.first;
   int index = e.second;
   return face->vertex((index + point_number) % 3)->point();
 }
 
-// Get vertex from edge
+// Get vertex from edge (vertex_number = 1 or 2)
 CDT::Vertex_handle utils::get_vertex_from_edge(Edge e, int vertex_number) {
   CDT::Face_handle face = e.first;
   int index = e.second;

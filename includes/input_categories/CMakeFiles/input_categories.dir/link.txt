@@ -1,0 +1,2 @@
+/usr/bin/ar qc libinput_categories.a CMakeFiles/input_categories.dir/input_categories.cpp.o
+/usr/bin/ranlib libinput_categories.a
