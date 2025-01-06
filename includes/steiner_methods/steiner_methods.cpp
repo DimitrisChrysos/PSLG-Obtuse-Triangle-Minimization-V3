@@ -25,6 +25,49 @@ steiner_methods::InsertionMethod steiner_methods::choose_random_steiner_method()
   return InsertionMethod::NONE;
 }
 
+obt_point steiner_methods::insert_random(CDT& cdt) {
+  int obtuse_faces_visited = 0;
+  int total_obtuse_count = count_obtuse_triangles(cdt);
+
+  CGAL::Random rand;
+  int random_face = rand.get_int(1, total_obtuse_count);
+
+
+  for (CDT::Finite_faces_iterator fit = cdt.finite_faces_begin(); fit != cdt.finite_faces_end(); fit++) {
+    CDT::Face_handle face = fit;
+    if (has_obtuse_angle(face)) {
+      obtuse_faces_visited++;
+      if (obtuse_faces_visited == random_face) {
+        Point p0 = face->vertex(0)->point();
+        Point p1 = face->vertex(1)->point();
+        Point p2 = face->vertex(2)->point();
+
+        // Generate random barycentric coordinates
+        double u = rand.get_double();
+        double v = rand.get_double();
+        if (u + v > 1) {  // Ensure the point is inside the triangle
+            u = 1 - u;
+            v = 1 - v;
+        }
+        double w = 1 - u - v;
+
+        // Compute the random point using barycentric interpolation
+        Point random_point = Point(
+            u * p0.x() + v * p1.x() + w * p2.x(),
+            u * p0.y() + v * p1.y() + w * p2.y()
+        );
+
+        // Insert the random point into the CDT
+        cdt.insert_no_flip(random_point);
+
+
+        obt_point ret(count_obtuse_triangles(cdt), random_point);
+        return ret;
+      }
+    }
+  }
+}
+
 // Insert the projection point of the obtuse vertex onto the opposite edge
 obt_point steiner_methods::insert_projection(CDT& cdt, CDT::Face_handle f1) {
   int obt_id = find_obtuse_vertex_id(f1);

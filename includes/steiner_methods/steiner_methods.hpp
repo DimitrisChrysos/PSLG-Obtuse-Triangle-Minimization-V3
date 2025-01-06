@@ -4,6 +4,7 @@
 #include "../custom_cdt_class/custom_cdt_class.hpp"
 #include "../utils/utils.hpp"
 #include <random>
+#include <CGAL/Random.h>
 
 typedef CGAL::Constrained_triangulation_plus_2<custom_cdt_class::Custom_Constrained_Delaunay_triangulation_2<K, CGAL:: Default, Itag>> CDT;
 typedef CGAL::Polygon_2<K> Polygon_2;
@@ -37,6 +38,8 @@ namespace steiner_methods {
 
     // Insert a point at the midpoint of the longest edge
     obt_point insert_mid(CDT& cdt, CDT::Face_handle f1);
+
+    obt_point insert_random(CDT& cdt);
 
     // Insert a point at the circumcenter of the triangle
     obt_face insert_circumcenter(CDT& cdt, FaceData f1);
