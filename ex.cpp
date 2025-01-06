@@ -567,8 +567,77 @@ void handle_methods(CDT& cdt,
 
 using namespace read_write_file;
 
+class AvailableSteinerMethods {
+  public:
+    bool proj;
+    bool centr;
+    bool mid;
+    bool circum;
+    bool merge;
+
+    AvailableSteinerMethods(bool proj, bool centr, bool mid, bool circum, bool merge) 
+      : proj(proj), centr(centr), mid(mid), circum(circum), merge(merge) {}
+};
+
+void choose_auto(std::string& method, std::list<std::pair<std::string, double>>& parameters, 
+                  boost::property_tree::ptree& parameters_for_output, 
+                  AvailableSteinerMethods& available_steiner_methods) {
+
+  //TODO: This needs proper implementation
+  std::cout << "Using preselected parameters\n";  // for auto (preselected params)
+  method = "local";
+  parameters = {{"L", 90}};
+  parameters_for_output.put("L", 90);
+  available_steiner_methods = {true, true, true, true, true};
+}
+
+void scan_config(int argc, char *argv[], boost::property_tree::ptree& root, std::string& method, 
+                  std::list<std::pair<std::string, double>>& parameters, boost::property_tree::ptree& parameters_for_output, 
+                  bool& delaunay, AvailableSteinerMethods& available_steiner_methods) {
+
+  if (argc == 5) {
+    method = get_method(root);
+    parameters = get_parameters(root);
+    parameters_for_output = root.get_child("parameters");
+    delaunay = get_delaunay(root);
+    available_steiner_methods = {true, true, true, true, true};
+  }
+  else {
+    if (strcmp(argv[5], "-preselected_params") == 0) {
+      choose_auto(method, parameters, parameters_for_output, available_steiner_methods);
+    }
+    else {
+      if (strcmp(argv[5], "-ls") == 0) method = "local";
+      else if (strcmp(argv[5], "-sa") == 0) method = "sa";
+      else if (strcmp(argv[5], "-ant") == 0) method = "ant";
+      else {
+        std::cout << "Error: Invalid method from arguments, use -ls, -sa or -ant \n";
+        exit (EXIT_FAILURE);
+      }
+
+      if (argc == 6) {
+        std::cout << "Error: You need to provide available steiner methods\n";
+        exit (EXIT_FAILURE);
+      }
+
+      for (int i = 6; i < argc; i++) {
+        if (strcmp(argv[i], "-proj") == 0) available_steiner_methods.proj = true;
+        else if (strcmp(argv[i], "-centr") == 0) available_steiner_methods.centr = true;
+        else if (strcmp(argv[i], "-mid") == 0) available_steiner_methods.mid = true;
+        else if (strcmp(argv[i], "-circum") == 0) available_steiner_methods.circum = true;
+        else if (strcmp(argv[i], "-merge") == 0) available_steiner_methods.merge = true;
+        else {
+          std::cout << "Error: Invalid steiner method from arguments\n";
+          exit (EXIT_FAILURE);
+        }
+      }
+    }
+    delaunay = true; // Delaunay is always true in this case
+  }
+}
+
 int main(int argc, char *argv[]) {
-  if (argc < 5 || argc > 6) {
+  if (argc < 5) {
     std::cout << "Wrong number of arguments\n";
     return 1;
   }
@@ -592,18 +661,17 @@ int main(int argc, char *argv[]) {
   std::list<std::pair<std::string, double>> parameters;
   boost::property_tree::ptree parameters_for_output;
   bool delaunay;
-  if (argc == 5) {
-    method = get_method(root);
-    parameters = get_parameters(root);
-    parameters_for_output = root.get_child("parameters");
-    delaunay = get_delaunay(root);
-  }
-  else {
-    method = "local";
-    parameters = {{"L", 90}};
-    parameters_for_output.put("L", 90);
-    delaunay = true;
-  }
+  AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
+  scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods);
+
+  ////////
+  std::cout << "Available steiner methods: " << std::endl;
+  std::cout << "Projection: " << available_steiner_methods.proj << std::endl;
+  std::cout << "Centroid: " << available_steiner_methods.centr << std::endl;
+  std::cout << "Midpoint: " << available_steiner_methods.mid << std::endl;
+  std::cout << "Circumcenter: " << available_steiner_methods.circum << std::endl;
+  std::cout << "Merge obtuse: " << available_steiner_methods.merge << std::endl;
+  ////////
 
   // Create the Constrained Delaunay Triangulation (CDT)
   CDT cdt;

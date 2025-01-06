@@ -103,7 +103,16 @@
     ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -preselected_params
 
 
-
+- Arguments:
+    1. argument 5:
+        1) argv[5] = "-preselected_params"
+        2) argv[5] = "-ls" (or) "-sa" (or) "-ant" // to choose the method
+    2. argument 6 and more are used to choose which steiner methods are available:
+        1) argv[6+] = "-proj" 
+        2) argv[6+] = "-centr" 
+        3) argv[6+] = "-mid" 
+        4) argv[6+] = "-circum" 
+        5) argv[6+] = "-merge" 
 
 
 
