@@ -114,7 +114,7 @@
         4) argv[6+] = "-circum" 
         5) argv[6+] = "-merge" 
 
-- Test that things work, by using those:
+- Test that things work (for the choose which method and steiner method to use feature), by using those:
     1. ./opt_triangulation -i old_tests_and_outputs/input_ls.json -o outputs/output1.json
     2. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -preselected_params
     3. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -proj -mid -centr -circum -merge
@@ -123,6 +123,9 @@
     6. ./opt_triangulation -i old_tests_and_outputs/input_sa.json -o outputs/output1.json
     7.  ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -sa -proj
     8. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -sa -proj -mid
+    9. ./opt_triangulation -i old_tests_and_outputs/input_ant.json -o outputs/output1.json
+    10. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ant -proj
+    11. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ant -proj -mid -centr -circum -merge
 
 
 

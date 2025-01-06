@@ -39,7 +39,7 @@ class effective_ant {
 int effective_ant::ant_id_counter = 0;
 
 // Choose a Steiner method
-InsertionMethod choose_steiner_method(CDT& cdt, CDT::Face_handle face, double k, double xi, double psi, t_sp tsp) {
+InsertionMethod choose_steiner_method(CDT& cdt, CDT::Face_handle face, double k, double xi, double psi, t_sp tsp, AvailableSteinerMethods available_steiner_methods) {
 
   // Calculate the radius-to-height ratio
   double r_to_h = calculate_r_to_h(face);
@@ -65,23 +65,29 @@ InsertionMethod choose_steiner_method(CDT& cdt, CDT::Face_handle face, double k,
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_real_distribution<> dis(0.0, sum_of_probabilities);
-  double random_number = dis(gen);
-  if (random_number <= p_projection) {
-    return InsertionMethod::PROJECTION;
-  }
-  else if (random_number <= p_projection + p_circumcenter) {
-    return InsertionMethod::CIRCUMCENTER;
-  }
-  else if (random_number <= p_projection + p_circumcenter + p_midpoint) {
-    return InsertionMethod::MIDPOINT;
-  }
-  else {
-    return InsertionMethod::MERGE_OBTUSE;
+  while(1) {
+    double random_number = dis(gen);
+    if (random_number <= p_projection) {
+      if (!available_steiner_methods.proj) continue;
+      return InsertionMethod::PROJECTION;
+    }
+    else if (random_number <= p_projection + p_circumcenter) {
+      if (!available_steiner_methods.circum) continue;
+      return InsertionMethod::CIRCUMCENTER;
+    }
+    else if (random_number <= p_projection + p_circumcenter + p_midpoint) {
+      if (!available_steiner_methods.mid) continue;
+      return InsertionMethod::MIDPOINT;
+    }
+    else {
+      if (!available_steiner_methods.merge) continue;
+      return InsertionMethod::MERGE_OBTUSE;
+    }
   }
 }
 
 // Improve the triangulation
-effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_params, t_sp tsp) {
+effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_params, t_sp tsp, AvailableSteinerMethods available_steiner_methods) {
 
   // Get a random face
   std::list<CDT::Face_handle> obtuse_faces;
@@ -101,24 +107,32 @@ effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_para
   CDT::Face_handle random_face = *it;
 
   // Choose a steiner method:
-  InsertionMethod steiner_method = choose_steiner_method(cdt, random_face, k, ant_params.xi, ant_params.psi, tsp);
+  InsertionMethod steiner_method;
   SteinerMethodObtPoint method_point;
   SteinerMethodObtFace method_face;
-  if (steiner_method == InsertionMethod::PROJECTION) method_point = insert_projection;
-  else if (steiner_method == InsertionMethod::MIDPOINT) method_point = insert_mid;
-  else if (steiner_method == InsertionMethod::CENTROID) method_point = insert_centroid;
-  else if (steiner_method == InsertionMethod::CIRCUMCENTER) method_face = insert_circumcenter;
-  else if (steiner_method == InsertionMethod::MERGE_OBTUSE) method_face = merge_obtuse;
+  bool found_method = false;
+  while(!found_method) {
+    steiner_method = choose_steiner_method(cdt, random_face, k, ant_params.xi, ant_params.psi, tsp, available_steiner_methods);
+    if (steiner_method == InsertionMethod::PROJECTION) method_point = insert_projection;
+    else if (steiner_method == InsertionMethod::MIDPOINT) method_point = insert_mid;
+    else if (steiner_method == InsertionMethod::CENTROID) method_point = insert_centroid;
+    else if (steiner_method == InsertionMethod::CIRCUMCENTER) method_face = insert_circumcenter;
+    else if (steiner_method == InsertionMethod::MERGE_OBTUSE) method_face = merge_obtuse;
 
-  // If the choosen method fails, pick the centroid method
-  if (steiner_method == InsertionMethod::CIRCUMCENTER || steiner_method == InsertionMethod::MERGE_OBTUSE) {
-    CDT copy(cdt);
-    FaceData face_data(random_face->vertex(0)->point(), random_face->vertex(1)->point(), random_face->vertex(2)->point());
-    obt_face temp = method_face(copy, face_data);
-    if (temp.obt_count == 9999) {
-      steiner_method = InsertionMethod::CENTROID;
-      method_point = insert_centroid;
+    // If the choosen method fails, pick the centroid method
+    if (steiner_method == InsertionMethod::CIRCUMCENTER || steiner_method == InsertionMethod::MERGE_OBTUSE) {
+      CDT copy(cdt);
+      FaceData face_data(random_face->vertex(0)->point(), random_face->vertex(1)->point(), random_face->vertex(2)->point());
+      obt_face temp = method_face(copy, face_data);
+      if (temp.obt_count == 9999) {
+        if (!available_steiner_methods.centr) {
+          continue;
+        }
+        steiner_method = InsertionMethod::CENTROID;
+        method_point = insert_centroid;
+      }
     }
+    found_method = true;
   }
 
   // Use the method
@@ -226,7 +240,7 @@ bool save_best_triangulation(CDT& cdt, std::list<effective_ant>& effective_ants,
 }
 
 // The ant colony optimization algorithm
-void ant_colony_optimization(CDT& cdt, ant_parameters ant_params) {
+void ant_colony_optimization(CDT& cdt, ant_parameters ant_params, AvailableSteinerMethods available_steiner_methods) {
 
   std::cout<< "L: " << ant_params.L << " | Kappa: " << ant_params.kappa << std::endl;
 
@@ -249,7 +263,7 @@ void ant_colony_optimization(CDT& cdt, ant_parameters ant_params) {
       CDT copy(cdt);
 
       // Improve the triangulation
-      effective_ant new_ant = improve_trianglulation(copy, k, ant_params, tsp);
+      effective_ant new_ant = improve_trianglulation(copy, k, ant_params, tsp, available_steiner_methods);
       if (new_ant.obt_count == 0) { // If the triangulation is optimal
         break;
       }
@@ -573,7 +587,7 @@ void handle_methods(CDT& cdt,
         return;
       }
     }
-    ant_colony_optimization(cdt, ant_params);
+    ant_colony_optimization(cdt, ant_params, available_steiner_methods);
   }
 }
 
