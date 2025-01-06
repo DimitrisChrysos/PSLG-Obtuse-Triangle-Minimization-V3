@@ -51,6 +51,21 @@ namespace read_write_file {
 
     bool get_delaunay(boost::property_tree::ptree root);
 
+    // For the auto functionality
+    void choose_auto(std::string& method, 
+                    std::list<std::pair<std::string, double>>& parameters, 
+                    boost::property_tree::ptree& parameters_for_output, 
+                    AvailableSteinerMethods& available_steiner_methods);
+
+    // Scan the configuration from the argv arguments
+    void scan_config(int argc, char *argv[], 
+                    boost::property_tree::ptree& root, 
+                    std::string& method, 
+                    std::list<std::pair<std::string, double>>& parameters, 
+                    boost::property_tree::ptree& parameters_for_output, 
+                    bool& delaunay, 
+                    AvailableSteinerMethods& available_steiner_methods);
+
     // Create the output file
     void write_output(CDT& cdt, 
                         std::vector<Point> points, 

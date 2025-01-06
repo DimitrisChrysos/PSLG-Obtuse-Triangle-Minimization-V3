@@ -114,6 +114,13 @@
         4) argv[6+] = "-circum" 
         5) argv[6+] = "-merge" 
 
+- Test that things work, by using those:
+    1. ./opt_triangulation -i old_tests_and_outputs/input_ls.json -o outputs/output1.json
+    2. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -preselected_params
+    3. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -proj -mid -centr -circum -merge
+    4. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -proj
+    5. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -mid
+
 
 
 - github repo link: https://github.com/DimitrisChrysos/project-emiris.git
