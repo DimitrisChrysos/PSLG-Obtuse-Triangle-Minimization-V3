@@ -15,6 +15,7 @@ typedef CDT::Edge Edge;
 using namespace utils;
 using namespace steiner_methods;
 using namespace input_categories;
+using namespace read_write_file;
 
 // An ant is stored using the following class
 class effective_ant {
@@ -405,7 +406,7 @@ void sim_annealing(CDT& cdt, double a, double b, int L) {
 
 // The Local Search algorithm
 // Also the method used in the first assignment
-void local_search(CDT& cdt, int L) {
+void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_methods) {
   int i;
   for (i = 0 ; i < L ; i++) {
 
@@ -432,47 +433,57 @@ void local_search(CDT& cdt, int L) {
 
       if (has_obtuse_angle(f)) {
         
-        CDT copy(cdt);
-        obt_point calc_insert_proj = insert_projection(copy, f);
-        if (best_steiner.obt_count > calc_insert_proj.obt_count) {
-          best_steiner = calc_insert_proj;
-          best_method = InsertionMethod::PROJECTION;
+        if (available_steiner_methods.proj) {
+          CDT copy(cdt);
+          obt_point calc_insert_proj = insert_projection(copy, f);
+          if (best_steiner.obt_count > calc_insert_proj.obt_count) {
+            best_steiner = calc_insert_proj;
+            best_method = InsertionMethod::PROJECTION;
+          }
         }
 
-        CDT copy1(cdt);
-        obt_point calc_insert_mid = insert_mid(copy1, f);
-        if (best_steiner.obt_count > calc_insert_mid.obt_count) {
-          best_steiner = calc_insert_mid;
-          best_method = InsertionMethod::MIDPOINT;
+        if (available_steiner_methods.mid) {
+          CDT copy1(cdt);
+          obt_point calc_insert_mid = insert_mid(copy1, f);
+          if (best_steiner.obt_count > calc_insert_mid.obt_count) {
+            best_steiner = calc_insert_mid;
+            best_method = InsertionMethod::MIDPOINT;
+          }
         }
 
-        CDT copy2(cdt);
-        obt_point calc_insert_centr = insert_centroid(copy2, f);
-        if (best_steiner.obt_count > calc_insert_centr.obt_count) {
-          best_steiner = calc_insert_centr;
-          best_method = InsertionMethod::CENTROID;
+        if (available_steiner_methods.centr) {
+          CDT copy2(cdt);
+          obt_point calc_insert_centr = insert_centroid(copy2, f);
+          if (best_steiner.obt_count > calc_insert_centr.obt_count) {
+            best_steiner = calc_insert_centr;
+            best_method = InsertionMethod::CENTROID;
+          }
         }
 
-        CDT copy3(cdt);
-        FaceData face_data(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
-        obt_face temp_circ_face = insert_circumcenter(copy3, face_data);
-        if (best_steiner.obt_count > temp_circ_face.obt_count) {
-          circumcenter_face = temp_circ_face;
-          toReplaceFace.p1 = f->vertex(0)->point();
-          toReplaceFace.p2 = f->vertex(1)->point();
-          toReplaceFace.p3 = f->vertex(2)->point();
-          best_method = InsertionMethod::CIRCUMCENTER;
+        if (available_steiner_methods.circum) {
+          CDT copy3(cdt);
+          FaceData face_data(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
+          obt_face temp_circ_face = insert_circumcenter(copy3, face_data);
+          if (best_steiner.obt_count > temp_circ_face.obt_count) {
+            circumcenter_face = temp_circ_face;
+            toReplaceFace.p1 = f->vertex(0)->point();
+            toReplaceFace.p2 = f->vertex(1)->point();
+            toReplaceFace.p3 = f->vertex(2)->point();
+            best_method = InsertionMethod::CIRCUMCENTER;
+          }
         }
 
-        CDT copy4(cdt);
-        FaceData face_data2(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
-        obt_face temp_merge_face = merge_obtuse(copy4, face_data2);
-        if (best_steiner.obt_count > temp_merge_face.obt_count) {
-          merge_face = temp_merge_face;
-          toReplaceFace.p1 = f->vertex(0)->point();
-          toReplaceFace.p2 = f->vertex(1)->point();
-          toReplaceFace.p3 = f->vertex(2)->point();
-          best_method = InsertionMethod::MERGE_OBTUSE;
+        if (available_steiner_methods.merge) {
+          CDT copy4(cdt);
+          FaceData face_data2(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
+          obt_face temp_merge_face = merge_obtuse(copy4, face_data2);
+          if (best_steiner.obt_count > temp_merge_face.obt_count) {
+            merge_face = temp_merge_face;
+            toReplaceFace.p1 = f->vertex(0)->point();
+            toReplaceFace.p2 = f->vertex(1)->point();
+            toReplaceFace.p3 = f->vertex(2)->point();
+            best_method = InsertionMethod::MERGE_OBTUSE;
+          }
         }
       }
     }
@@ -512,17 +523,18 @@ Polygon_2 make_region_boundary_polygon(std::list<int> region_boundary, std::vect
 void handle_methods(CDT& cdt, 
                     std::string method, 
                     std::list<std::pair<std::string, double>> parameters,
-                    bool delaunay) {
+                    bool delaunay,
+                    AvailableSteinerMethods available_steiner_methods) {
   if (method == "local") {
     auto it = parameters.begin();
     double L = it->second;
     if (!delaunay) {
-      local_search(cdt, 30);
+      local_search(cdt, 30, available_steiner_methods);
       if (count_obtuse_triangles(cdt) == 0) {
         return;
       }
     }
-    local_search(cdt, L);
+    local_search(cdt, L, available_steiner_methods);
   }
   else if (method == "sa") {
     auto it = parameters.begin();
@@ -532,7 +544,7 @@ void handle_methods(CDT& cdt,
     it++;
     double L = it->second;
     if (!delaunay) {
-      local_search(cdt, 30);
+      local_search(cdt, 30, available_steiner_methods);
       if (count_obtuse_triangles(cdt) == 0) {
         return;
       }
@@ -556,7 +568,7 @@ void handle_methods(CDT& cdt,
     double L = it->second;
     ant_parameters ant_params(alpha, beta, xi, psi, lambda, kappa, L);
     if (!delaunay) {
-      local_search(cdt, 30);
+      local_search(cdt, 30, available_steiner_methods);
       if (count_obtuse_triangles(cdt) == 0) {
         return;
       }
@@ -565,19 +577,8 @@ void handle_methods(CDT& cdt,
   }
 }
 
-using namespace read_write_file;
 
-class AvailableSteinerMethods {
-  public:
-    bool proj;
-    bool centr;
-    bool mid;
-    bool circum;
-    bool merge;
 
-    AvailableSteinerMethods(bool proj, bool centr, bool mid, bool circum, bool merge) 
-      : proj(proj), centr(centr), mid(mid), circum(circum), merge(merge) {}
-};
 
 void choose_auto(std::string& method, std::list<std::pair<std::string, double>>& parameters, 
                   boost::property_tree::ptree& parameters_for_output, 
@@ -607,16 +608,38 @@ void scan_config(int argc, char *argv[], boost::property_tree::ptree& root, std:
       choose_auto(method, parameters, parameters_for_output, available_steiner_methods);
     }
     else {
-      if (strcmp(argv[5], "-ls") == 0) method = "local";
-      else if (strcmp(argv[5], "-sa") == 0) method = "sa";
-      else if (strcmp(argv[5], "-ant") == 0) method = "ant";
+      if (strcmp(argv[5], "-ls") == 0) {
+        method = "local";
+        parameters = {{"L", 90}};
+        parameters_for_output.put("L", 90);
+      } 
+      else if (strcmp(argv[5], "-sa") == 0) {
+        method = "sa";
+        parameters = {{"alpha", 3}, {"beta", 0.3}, {"L", 200}};
+        parameters_for_output.put("alpha", 3);
+        parameters_for_output.put("beta", 0.3);
+        parameters_for_output.put("L", 200);
+      }
+      else if (strcmp(argv[5], "-ant") == 0) {
+        method = "ant";
+        parameters = {{"alpha", 3}, {"beta", 0.3}, 
+                      {"xi", 1.0}, {"psi", 3.0}, 
+                      {"lambda", 0.7}, {"kappa", 10}, {"L", 30}};
+        parameters_for_output.put("alpha", 3);
+        parameters_for_output.put("beta", 0.3);
+        parameters_for_output.put("xi", 1.0);
+        parameters_for_output.put("psi", 3.0);
+        parameters_for_output.put("lambda", 0.7);
+        parameters_for_output.put("kappa", 10);
+        parameters_for_output.put("L", 30);
+      } 
       else {
         std::cout << "Error: Invalid method from arguments, use -ls, -sa or -ant \n";
         exit (EXIT_FAILURE);
       }
 
       if (argc == 6) {
-        std::cout << "Error: You need to provide available steiner methods\n";
+        std::cout << "Error: You need to provide available steiner methods, use -proj, -mid, -centr, -circum or -merge\n";
         exit (EXIT_FAILURE);
       }
 
@@ -627,7 +650,7 @@ void scan_config(int argc, char *argv[], boost::property_tree::ptree& root, std:
         else if (strcmp(argv[i], "-circum") == 0) available_steiner_methods.circum = true;
         else if (strcmp(argv[i], "-merge") == 0) available_steiner_methods.merge = true;
         else {
-          std::cout << "Error: Invalid steiner method from arguments\n";
+          std::cout << "Error: Invalid steiner method from arguments, use -proj, -mid, -centr, -circum or -merge\n";
           exit (EXIT_FAILURE);
         }
       }
@@ -664,7 +687,7 @@ int main(int argc, char *argv[]) {
   AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
   scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods);
 
-  ////////
+  ////////TODO: delete later
   std::cout << "Available steiner methods: " << std::endl;
   std::cout << "Projection: " << available_steiner_methods.proj << std::endl;
   std::cout << "Centroid: " << available_steiner_methods.centr << std::endl;
@@ -698,14 +721,14 @@ int main(int argc, char *argv[]) {
   // Find input category
   InputCategory input_category = find_input_category(cdt, additional_constraints);
   std::cout << "Input category: " << (int)input_category << std::endl;
-  return 0; //TODO: delete later
+  // return 0; //TODO: delete later
 
   // Count the obtuse triangles
   std::cout << "Starting obtuse counter: " << count_obtuse_triangles(cdt) << std::endl;
 
   // Insert Steiner points
   CGAL::draw(cdt);
-  handle_methods(cdt, method, parameters, delaunay);
+  handle_methods(cdt, method, parameters, delaunay, available_steiner_methods);
 
   // Output the results
   write_output(cdt, points, method, parameters_for_output, argv[4]);

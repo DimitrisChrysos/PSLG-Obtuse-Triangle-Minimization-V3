@@ -16,6 +16,18 @@ typedef CDT::Edge Edge;
 using namespace utils;
 
 namespace read_write_file {
+    class AvailableSteinerMethods {
+        public:
+            bool proj;
+            bool centr;
+            bool mid;
+            bool circum;
+            bool merge;
+
+            AvailableSteinerMethods(bool proj, bool centr, bool mid, bool circum, bool merge) 
+            : proj(proj), centr(centr), mid(mid), circum(circum), merge(merge) {}
+    };
+
     // Read JSON functions
     std::string get_instance_uid(boost::property_tree::ptree root);
 
