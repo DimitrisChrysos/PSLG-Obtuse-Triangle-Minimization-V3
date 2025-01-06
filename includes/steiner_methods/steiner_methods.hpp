@@ -3,6 +3,7 @@
 
 #include "../custom_cdt_class/custom_cdt_class.hpp"
 #include "../utils/utils.hpp"
+#include "../read_write_file/read_write_file.hpp"
 #include <random>
 #include <CGAL/Random.h>
 
@@ -13,6 +14,7 @@ typedef CDT::Point Point;
 typedef CDT::Edge Edge;
 
 using namespace utils;
+using namespace read_write_file;
 
 using SteinerMethodObtPoint = obt_point (*)(CDT&, CDT::Face_handle);
 using SteinerMethodObtFace = obt_face (*)(CDT&, FaceData);
@@ -28,7 +30,7 @@ namespace steiner_methods {
     };
 
     // Choose a random Steiner method
-    InsertionMethod choose_random_steiner_method();
+    InsertionMethod choose_random_steiner_method(AvailableSteinerMethods available_steiner_methods);
 
     // Insert the projection point of the obtuse vertex onto the opposite edge
     obt_point insert_projection(CDT& cdt, CDT::Face_handle f1);

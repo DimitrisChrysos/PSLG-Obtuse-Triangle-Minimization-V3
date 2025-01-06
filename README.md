@@ -120,6 +120,9 @@
     3. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -proj -mid -centr -circum -merge
     4. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -proj
     5. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ls -mid
+    6. ./opt_triangulation -i old_tests_and_outputs/input_sa.json -o outputs/output1.json
+    7.  ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -sa -proj
+    8. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -sa -proj -mid
 
 
 

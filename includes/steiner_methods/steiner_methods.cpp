@@ -1,25 +1,27 @@
 #include "steiner_methods.hpp"
 
 // Choose a random Steiner method
-steiner_methods::InsertionMethod steiner_methods::choose_random_steiner_method() {
+steiner_methods::InsertionMethod steiner_methods::choose_random_steiner_method(AvailableSteinerMethods available_steiner_methods) {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dis(0, static_cast<int>(InsertionMethod::MERGE_OBTUSE));
-  int selected = dis(gen);
-  if (selected == static_cast<int>(InsertionMethod::PROJECTION)) {
-    return InsertionMethod::PROJECTION;
-  }
-  else if (selected == static_cast<int>(InsertionMethod::MIDPOINT)) {
-    return InsertionMethod::MIDPOINT;
-  }
-  else if (selected == static_cast<int>(InsertionMethod::CENTROID)) {
-    return InsertionMethod::CENTROID;
-  }
-  else if (selected == static_cast<int>(InsertionMethod::CIRCUMCENTER)) {
-    return InsertionMethod::CIRCUMCENTER;
-  }
-  else if (selected == static_cast<int>(InsertionMethod::MERGE_OBTUSE)) {
-    return InsertionMethod::MERGE_OBTUSE;
+  while (1) {
+    int selected = dis(gen);
+    if (selected == static_cast<int>(InsertionMethod::PROJECTION) && available_steiner_methods.proj) {
+      return InsertionMethod::PROJECTION;
+    }
+    else if (selected == static_cast<int>(InsertionMethod::MIDPOINT) && available_steiner_methods.mid) {
+      return InsertionMethod::MIDPOINT;
+    }
+    else if (selected == static_cast<int>(InsertionMethod::CENTROID) && available_steiner_methods.centr) {
+      return InsertionMethod::CENTROID;
+    }
+    else if (selected == static_cast<int>(InsertionMethod::CIRCUMCENTER) && available_steiner_methods.circum) {
+      return InsertionMethod::CIRCUMCENTER;
+    }
+    else if (selected == static_cast<int>(InsertionMethod::MERGE_OBTUSE) && available_steiner_methods.merge) {
+      return InsertionMethod::MERGE_OBTUSE;
+    }
   }
 
   return InsertionMethod::NONE;

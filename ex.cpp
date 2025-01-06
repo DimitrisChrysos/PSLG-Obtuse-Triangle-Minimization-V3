@@ -285,7 +285,7 @@ bool accept_or_decline(double prob) {
 }
 
 // The simulated annealing algorithm
-void sim_annealing(CDT& cdt, double a, double b, int L) {
+void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods available_steiner_methods) {
   int steiner_counter = 0;
   double cur_en = a * count_obtuse_triangles(cdt) + b * steiner_counter;
   double T = 1;
@@ -314,7 +314,7 @@ void sim_annealing(CDT& cdt, double a, double b, int L) {
 
         if (has_obtuse_angle(f)) {
           
-          InsertionMethod steiner_method = choose_random_steiner_method();
+          InsertionMethod steiner_method = choose_random_steiner_method(available_steiner_methods);
           if (steiner_method == InsertionMethod::PROJECTION || 
               steiner_method == InsertionMethod::MIDPOINT || 
               steiner_method == InsertionMethod::CENTROID) {
@@ -549,7 +549,7 @@ void handle_methods(CDT& cdt,
         return;
       }
     }
-    sim_annealing(cdt, alpha, beta, L);
+    sim_annealing(cdt, alpha, beta, L, available_steiner_methods);
   }
   else if (method == "ant") {
     auto it = parameters.begin();
@@ -577,8 +577,7 @@ void handle_methods(CDT& cdt,
   }
 }
 
-
-// Main function
+// Main 
 int main(int argc, char *argv[]) {
   if (argc < 5) {
     std::cout << "Wrong number of arguments\n";
