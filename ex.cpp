@@ -299,6 +299,34 @@ void ant_colony_optimization(CDT& cdt, ant_parameters ant_params, AvailableStein
 
   // Use the best triangulation to the starting cdt
   use_triangulation_ants(cdt, best_triangulation_ants, true);
+  int consec_insertions = 0;
+  if (count_obtuse_triangles(cdt)) {
+    while (consec_insertions < 5) {
+      int cur_cnt = count_obtuse_triangles(cdt);
+      if (!cur_cnt)
+        break;
+      int failed_attempts = 0;
+      CDT copy5(cdt);
+      obt_point pnt = insert_random(copy5);
+      while (count_obtuse_triangles(copy5) > cur_cnt) {
+        failed_attempts++;
+        if (failed_attempts == 5)
+          break;
+        CDT copy6(cdt);
+        pnt = insert_random(copy6);
+      }
+      if (failed_attempts == 5)
+        break;
+      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
+      cdt.random_used = true;
+      if (count_obtuse_triangles(cdt) == cur_cnt) {
+        consec_insertions++;
+      }
+      else {
+        consec_insertions = 0;
+      }
+    }
+  }
   std::cout << "\nFinal -> Obtuse Triangles: " << count_obtuse_triangles(cdt) << " || Steiner Points: " << best_triangulation_ants.size() << std::endl;
 }
 
@@ -439,6 +467,35 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
       std::cout << "After sa try " << tries << " -> obt_triangles: " << count_obtuse_triangles(cdt) << " | steiner_counter: " << steiner_counter << "| T: " << T << std::endl;
     }
   }
+
+  int consec_insertions = 0;
+  if (count_obtuse_triangles(cdt)) {
+    while (consec_insertions < 5) {
+      int cur_cnt = count_obtuse_triangles(cdt);
+      if (!cur_cnt)
+        break;
+      int failed_attempts = 0;
+      CDT copy5(cdt);
+      obt_point pnt = insert_random(copy5);
+      while (count_obtuse_triangles(copy5) > cur_cnt) {
+        failed_attempts++;
+        if (failed_attempts == 5)
+          break;
+        CDT copy6(cdt);
+        pnt = insert_random(copy6);
+      }
+      if (failed_attempts == 5)
+        break;
+      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
+      cdt.random_used = true;
+      if (count_obtuse_triangles(cdt) == cur_cnt) {
+        consec_insertions++;
+      }
+      else {
+        consec_insertions = 0;
+      }
+    }
+  }
 }
 
 
@@ -446,13 +503,18 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
 // Also the method used in the first assignment
 void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_methods) {
   int i;
+  int consec_insertions = 0;
   for (i = 0 ; i < L ; i++) {
-
-    if (count_obtuse_triangles(cdt) == 0) {
+    
+    int init_obtuse_count = count_obtuse_triangles(cdt);
+    if (init_obtuse_count == 0) {
       break;
     }
 
-    int init_obtuse_count = count_obtuse_triangles(cdt);
+    if (consec_insertions >= 30)
+      break;
+
+    // int init_obtuse_count = count_obtuse_triangles(cdt);
     Point starting_point;
     CDT::Face_handle starting_face;
     obt_point best_steiner(9999, starting_point);
@@ -548,7 +610,46 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
       std::cout << "Time limit reached\n";
       break;
     }
+
+    if (count_obtuse_triangles(cdt) >= init_obtuse_count) {
+      consec_insertions++;
+    }
+    else {
+      consec_insertions = 0;
+    }
   }
+
+  // Edw prepei na valw thn tyxaiopoihsh
+  consec_insertions = 0;
+  if (count_obtuse_triangles(cdt) && i < L) {
+    while (consec_insertions < 5) {
+      int cur_cnt = count_obtuse_triangles(cdt);
+      if (!cur_cnt)
+        break;
+      int failed_attempts = 0;
+      CDT copy5(cdt);
+      obt_point pnt = insert_random(copy5);
+      while (count_obtuse_triangles(copy5) > cur_cnt) {
+        failed_attempts++;
+        if (failed_attempts == 5)
+          break;
+        CDT copy6(cdt);
+        pnt = insert_random(copy6);
+      }
+      if (failed_attempts == 5)
+        break;
+      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
+      cdt.random_used = true;
+      if (count_obtuse_triangles(cdt) == cur_cnt) {
+        consec_insertions++;
+      }
+      else {
+        consec_insertions = 0;
+      }
+    }
+  }
+
+
   std::cout << "After " << i << " Steiner Insertions | obt_triangles: " << count_obtuse_triangles(cdt) << std::endl;
 }
 
@@ -688,7 +789,7 @@ int main(int argc, char *argv[]) {
   std::cout << "Starting obtuse counter: " << count_obtuse_triangles(cdt) << std::endl;
 
   // Insert Steiner points
-  CGAL::draw(cdt);
+  // CGAL::draw(cdt);
   handle_methods(cdt, method, parameters, delaunay, available_steiner_methods);
 
   // Function for the case that the program was called from the test_instances.py file
@@ -696,7 +797,7 @@ int main(int argc, char *argv[]) {
 
   // Output the results
   write_output(cdt, points, method, parameters_for_output, argv[4]);
-  CGAL::draw(cdt);
+  // CGAL::draw(cdt);
   
   return 0;
 }

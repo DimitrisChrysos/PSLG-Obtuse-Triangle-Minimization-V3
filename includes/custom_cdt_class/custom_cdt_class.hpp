@@ -44,6 +44,8 @@ namespace custom_cdt_class {
       std::vector<K::FT> steiner_x;
       std::vector<K::FT> steiner_y;
 
+      bool random_used = false;
+
 
 
       // Constructors

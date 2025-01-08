@@ -325,6 +325,8 @@ void read_write_file::write_output(CDT& cdt,
   // Add the JSON object to the root object
   root1["parameters"] = parameters_json;
 
+  root1["randomization"] = cdt.random_used;
+
   // Serialize the whole JSON object
   std::string json_string = boost::json::serialize(root1);
 
