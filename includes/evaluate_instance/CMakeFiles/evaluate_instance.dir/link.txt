@@ -1,0 +1,2 @@
+/usr/bin/ar qc libevaluate_instance.a CMakeFiles/evaluate_instance.dir/evaluate_instance.cpp.o
+/usr/bin/ranlib libevaluate_instance.a

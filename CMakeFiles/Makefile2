@@ -69,6 +69,7 @@ all: includes/utils/all
 all: includes/read_write_file/all
 all: includes/steiner_methods/all
 all: includes/input_categories/all
+all: includes/evaluate_instance/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -77,6 +78,7 @@ preinstall: includes/utils/preinstall
 preinstall: includes/read_write_file/preinstall
 preinstall: includes/steiner_methods/preinstall
 preinstall: includes/input_categories/preinstall
+preinstall: includes/evaluate_instance/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
@@ -88,6 +90,7 @@ clean: includes/utils/clean
 clean: includes/read_write_file/clean
 clean: includes/steiner_methods/clean
 clean: includes/input_categories/clean
+clean: includes/evaluate_instance/clean
 .PHONY : clean
 
 #=============================================================================
@@ -104,6 +107,21 @@ includes/custom_cdt_class/preinstall:
 # Recursive "clean" directory target.
 includes/custom_cdt_class/clean: includes/custom_cdt_class/CMakeFiles/custom_cdt_class.dir/clean
 .PHONY : includes/custom_cdt_class/clean
+
+#=============================================================================
+# Directory level rules for directory includes/evaluate_instance
+
+# Recursive "all" directory target.
+includes/evaluate_instance/all: includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/all
+.PHONY : includes/evaluate_instance/all
+
+# Recursive "preinstall" directory target.
+includes/evaluate_instance/preinstall:
+.PHONY : includes/evaluate_instance/preinstall
+
+# Recursive "clean" directory target.
+includes/evaluate_instance/clean: includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/clean
+.PHONY : includes/evaluate_instance/clean
 
 #=============================================================================
 # Directory level rules for directory includes/input_categories
@@ -201,14 +219,15 @@ CMakeFiles/opt_triangulation.dir/all: includes/utils/CMakeFiles/utils.dir/all
 CMakeFiles/opt_triangulation.dir/all: includes/read_write_file/CMakeFiles/read_write_file.dir/all
 CMakeFiles/opt_triangulation.dir/all: includes/steiner_methods/CMakeFiles/steiner_methods.dir/all
 CMakeFiles/opt_triangulation.dir/all: includes/input_categories/CMakeFiles/input_categories.dir/all
+CMakeFiles/opt_triangulation.dir/all: includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/opt_triangulation.dir/build.make CMakeFiles/opt_triangulation.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/opt_triangulation.dir/build.make CMakeFiles/opt_triangulation.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=17,18 "Built target opt_triangulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=19,20 "Built target opt_triangulation"
 .PHONY : CMakeFiles/opt_triangulation.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/opt_triangulation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/opt_triangulation.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" 0
 .PHONY : CMakeFiles/opt_triangulation.dir/rule
@@ -281,7 +300,7 @@ includes/custom_cdt_class/CMakeFiles/custom_cdt_class.dir/clean:
 includes/utils/CMakeFiles/utils.dir/all:
 	$(MAKE) $(MAKESILENT) -f includes/utils/CMakeFiles/utils.dir/build.make includes/utils/CMakeFiles/utils.dir/depend
 	$(MAKE) $(MAKESILENT) -f includes/utils/CMakeFiles/utils.dir/build.make includes/utils/CMakeFiles/utils.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=23,24 "Built target utils"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=25,26 "Built target utils"
 .PHONY : includes/utils/CMakeFiles/utils.dir/all
 
 # Build rule for subdir invocation for target.
@@ -307,7 +326,7 @@ includes/utils/CMakeFiles/utils.dir/clean:
 includes/read_write_file/CMakeFiles/read_write_file.dir/all:
 	$(MAKE) $(MAKESILENT) -f includes/read_write_file/CMakeFiles/read_write_file.dir/build.make includes/read_write_file/CMakeFiles/read_write_file.dir/depend
 	$(MAKE) $(MAKESILENT) -f includes/read_write_file/CMakeFiles/read_write_file.dir/build.make includes/read_write_file/CMakeFiles/read_write_file.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=19,20 "Built target read_write_file"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=21,22 "Built target read_write_file"
 .PHONY : includes/read_write_file/CMakeFiles/read_write_file.dir/all
 
 # Build rule for subdir invocation for target.
@@ -333,7 +352,7 @@ includes/read_write_file/CMakeFiles/read_write_file.dir/clean:
 includes/steiner_methods/CMakeFiles/steiner_methods.dir/all:
 	$(MAKE) $(MAKESILENT) -f includes/steiner_methods/CMakeFiles/steiner_methods.dir/build.make includes/steiner_methods/CMakeFiles/steiner_methods.dir/depend
 	$(MAKE) $(MAKESILENT) -f includes/steiner_methods/CMakeFiles/steiner_methods.dir/build.make includes/steiner_methods/CMakeFiles/steiner_methods.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=21,22 "Built target steiner_methods"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=23,24 "Built target steiner_methods"
 .PHONY : includes/steiner_methods/CMakeFiles/steiner_methods.dir/all
 
 # Build rule for subdir invocation for target.
@@ -359,7 +378,7 @@ includes/steiner_methods/CMakeFiles/steiner_methods.dir/clean:
 includes/input_categories/CMakeFiles/input_categories.dir/all:
 	$(MAKE) $(MAKESILENT) -f includes/input_categories/CMakeFiles/input_categories.dir/build.make includes/input_categories/CMakeFiles/input_categories.dir/depend
 	$(MAKE) $(MAKESILENT) -f includes/input_categories/CMakeFiles/input_categories.dir/build.make includes/input_categories/CMakeFiles/input_categories.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=15,16 "Built target input_categories"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=17,18 "Built target input_categories"
 .PHONY : includes/input_categories/CMakeFiles/input_categories.dir/all
 
 # Build rule for subdir invocation for target.
@@ -377,6 +396,32 @@ input_categories: includes/input_categories/CMakeFiles/input_categories.dir/rule
 includes/input_categories/CMakeFiles/input_categories.dir/clean:
 	$(MAKE) $(MAKESILENT) -f includes/input_categories/CMakeFiles/input_categories.dir/build.make includes/input_categories/CMakeFiles/input_categories.dir/clean
 .PHONY : includes/input_categories/CMakeFiles/input_categories.dir/clean
+
+#=============================================================================
+# Target rules for target includes/evaluate_instance/CMakeFiles/evaluate_instance.dir
+
+# All Build rule for target.
+includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/all:
+	$(MAKE) $(MAKESILENT) -f includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build.make includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/depend
+	$(MAKE) $(MAKESILENT) -f includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build.make includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" --progress-num=15,16 "Built target evaluate_instance"
+.PHONY : includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/all
+
+# Build rule for subdir invocation for target.
+includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/dimitris/Documents/project emiris/project3/project-emiris-3/CMakeFiles" 0
+.PHONY : includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/rule
+
+# Convenience name for target.
+evaluate_instance: includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/rule
+.PHONY : evaluate_instance
+
+# clean rule for target.
+includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/clean:
+	$(MAKE) $(MAKESILENT) -f includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build.make includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/clean
+.PHONY : includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

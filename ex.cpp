@@ -3,8 +3,12 @@
 #include "includes/read_write_file/read_write_file.hpp"
 #include "includes/steiner_methods/steiner_methods.hpp"
 #include "includes/input_categories/input_categories.hpp"
+#include "includes/evaluate_instance/evaluate_instance.hpp"
 #include <random>
 #include <chrono>
+#include <cmath>
+#include <fstream>
+
 
 typedef CGAL::Constrained_triangulation_plus_2<custom_cdt_class::Custom_Constrained_Delaunay_triangulation_2<K, CGAL:: Default, Itag>> CDT;
 typedef CGAL::Polygon_2<K> Polygon_2;
@@ -16,6 +20,7 @@ using namespace utils;
 using namespace steiner_methods;
 using namespace input_categories;
 using namespace read_write_file;
+using namespace evaluate_instance;
 
 // An ant is stored using the following class
 class effective_ant {
@@ -200,8 +205,12 @@ bool handle_conflicts(CDT &cdt, std::list<effective_ant>& effective_ants, effect
 }
 
 // Use the triangulation ants to the cdt
-void use_triangulation_ants(CDT& cdt, std::list<effective_ant>& ants) {
+void use_triangulation_ants(CDT& cdt, std::list<effective_ant>& ants, bool final_use = false) {
   for (effective_ant& ant : ants) {
+
+    int save_obt_count = count_obtuse_triangles(cdt);
+    int save_steiner_count = ants.size();
+    
     InsertionMethod method = ant.sp_method;
     if (method == InsertionMethod::PROJECTION || 
         method == InsertionMethod::MIDPOINT || 
@@ -214,6 +223,9 @@ void use_triangulation_ants(CDT& cdt, std::list<effective_ant>& ants) {
     }
     else if (method == InsertionMethod::MERGE_OBTUSE) {
       merge_obtuse(cdt, ant.face_for_sp_method);
+    }
+    if (final_use) {
+      calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
     }
   }
 }
@@ -286,7 +298,7 @@ void ant_colony_optimization(CDT& cdt, ant_parameters ant_params, AvailableStein
   }
 
   // Use the best triangulation to the starting cdt
-  use_triangulation_ants(cdt, best_triangulation_ants);
+  use_triangulation_ants(cdt, best_triangulation_ants, true);
   std::cout << "\nFinal -> Obtuse Triangles: " << count_obtuse_triangles(cdt) << " || Steiner Points: " << best_triangulation_ants.size() << std::endl;
 }
 
@@ -344,8 +356,11 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
             new_en = a * calc_insert_proj.obt_count + b * steiner_counter;
             de = new_en - cur_en;
             if (de < 0) {
+              int save_obt_count = count_obtuse_triangles(cdt);
+              int save_steiner_count = cdt.steiner_x.size();
               obt_point best_steiner = method(cdt, f);
               cdt.insert_steiner_x_y(best_steiner.insrt_pt.x(), best_steiner.insrt_pt.y());
+              calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
               cur_en = new_en;
               flag = true;
               break;
@@ -355,8 +370,11 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
               double prob = std::pow(e, exponent);
               bool acc = accept_or_decline(prob);
               if (acc) {
+                int save_obt_count = count_obtuse_triangles(cdt);
+                int save_steiner_count = cdt.steiner_x.size();
                 obt_point best_steiner = method(cdt, f);
                 cdt.insert_steiner_x_y(best_steiner.insrt_pt.x(), best_steiner.insrt_pt.y());
+                calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
                 cur_en = new_en;
                 flag = true;
                 break;
@@ -381,8 +399,11 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
             new_en = a * temp.obt_count + b * steiner_counter;
             de = new_en - cur_en;
             if (de < 0) {
+              int save_obt_count = count_obtuse_triangles(cdt);
+              int save_steiner_count = cdt.steiner_x.size();
               FaceData face_data(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
               method(cdt, face_data);
+              calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
               cur_en = new_en;
               flag = true;
               break;
@@ -392,8 +413,11 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
               double prob = std::pow(e, exponent);
               bool acc = accept_or_decline(prob);
               if (acc) {
+                int save_obt_count = count_obtuse_triangles(cdt);
+                int save_steiner_count = cdt.steiner_x.size();
                 FaceData face_data(f->vertex(0)->point(), f->vertex(1)->point(), f->vertex(2)->point());
                 method(cdt, face_data);
+                calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
                 cur_en = new_en;
                 flag = true;
                 break;
@@ -436,6 +460,9 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
     obt_face circumcenter_face(9999, starting_face);
     InsertionMethod best_method = InsertionMethod::NONE;
     FaceData toReplaceFace(Point(0,0), Point(0,0), Point(0,0));
+
+    int save_obt_count = count_obtuse_triangles(cdt);
+    int save_steiner_count = cdt.steiner_x.size();
 
     auto start = std::chrono::high_resolution_clock::now();
     
@@ -513,6 +540,7 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
     else if (best_method == InsertionMethod::MERGE_OBTUSE) {
       merge_obtuse(cdt, toReplaceFace);
     }
+    calculate_rate_of_convergence(cdt, save_obt_count, save_steiner_count);
     std::cout << "After local search try " << i << "-> obt_triangles: " << count_obtuse_triangles(cdt) << std::endl;
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
@@ -620,14 +648,14 @@ int main(int argc, char *argv[]) {
   AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
   scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods);
 
-  ////////TODO: delete later
-  std::cout << "Available steiner methods: " << std::endl;
-  std::cout << "Projection: " << available_steiner_methods.proj << std::endl;
-  std::cout << "Centroid: " << available_steiner_methods.centr << std::endl;
-  std::cout << "Midpoint: " << available_steiner_methods.mid << std::endl;
-  std::cout << "Circumcenter: " << available_steiner_methods.circum << std::endl;
-  std::cout << "Merge obtuse: " << available_steiner_methods.merge << std::endl;
-  ////////
+  // ////////TODO: delete later
+  // std::cout << "Available steiner methods: " << std::endl;
+  // std::cout << "Projection: " << available_steiner_methods.proj << std::endl;
+  // std::cout << "Centroid: " << available_steiner_methods.centr << std::endl;
+  // std::cout << "Midpoint: " << available_steiner_methods.mid << std::endl;
+  // std::cout << "Circumcenter: " << available_steiner_methods.circum << std::endl;
+  // std::cout << "Merge obtuse: " << available_steiner_methods.merge << std::endl;
+  // ////////
 
   // Create the Constrained Delaunay Triangulation (CDT)
   CDT cdt;
@@ -662,6 +690,9 @@ int main(int argc, char *argv[]) {
   // Insert Steiner points
   CGAL::draw(cdt);
   handle_methods(cdt, method, parameters, delaunay, available_steiner_methods);
+
+  // Function for the case that the program was called from the test_instances.py file
+  for_test_instances_dot_py(argc, argv, cdt);
 
   // Output the results
   write_output(cdt, points, method, parameters_for_output, argv[4]);

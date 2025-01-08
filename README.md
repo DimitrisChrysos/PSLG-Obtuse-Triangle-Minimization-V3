@@ -127,6 +127,28 @@
     10. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ant -proj
     11. ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ant -proj -mid -centr -circum -merge
 
+- alpha = 3
+- beta = 0.3 
 
+- Testing instances with their subsets of methods and steiner methods:
+    1) Category A -> Convex Boundary - No Constraints
+        1. ./opt_triangulation -i challenge_instances_cgshop25/point-set_10_4bcb7c21.instance.json -o outputs/output1.json -preselected_params
+        2. 
+        3. 
+        4. 
+        5. 
+        6. 
+        7. 
+        8. 
+        9. 
+        10. 
+    2) Category B -> Convex Boundary - Open Constrants
+        1. 
+        2. 
+        3. 
+    3) Category C -> Convex Boundary - Close Constraints
+    4) Category D -> Not Convex Boundary - Parallel to Axes
+    5) Category E -> Not Convex Boundary - No Rules
+    
 
-- github repo link: https://github.com/DimitrisChrysos/project-emiris.git
+- github repo link: https://github.com/DimitrisChrysos/project-emiris-3.git

@@ -220,6 +220,19 @@ input_categories/fast:
 	$(MAKE) $(MAKESILENT) -f includes/input_categories/CMakeFiles/input_categories.dir/build.make includes/input_categories/CMakeFiles/input_categories.dir/build
 .PHONY : input_categories/fast
 
+#=============================================================================
+# Target rules for targets named evaluate_instance
+
+# Build rule for target.
+evaluate_instance: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 evaluate_instance
+.PHONY : evaluate_instance
+
+# fast build rule for target.
+evaluate_instance/fast:
+	$(MAKE) $(MAKESILENT) -f includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build.make includes/evaluate_instance/CMakeFiles/evaluate_instance.dir/build
+.PHONY : evaluate_instance/fast
+
 CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.o: CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.cpp.o
 .PHONY : CGAL_Qt5_moc_and_resources_autogen/mocs_compilation.o
 
@@ -375,6 +388,7 @@ help:
 	@echo "... CGAL_Qt5_moc_and_resources_autogen"
 	@echo "... CGAL_Qt5_moc_and_resources"
 	@echo "... custom_cdt_class"
+	@echo "... evaluate_instance"
 	@echo "... input_categories"
 	@echo "... opt_triangulation"
 	@echo "... read_write_file"
