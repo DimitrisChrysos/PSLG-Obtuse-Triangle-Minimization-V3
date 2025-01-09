@@ -49,12 +49,13 @@ void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& c
     std::string filename = file_name_unedited.substr(lastSlashPos + 1);
     size_t dotPos = filename.find(".instance.json");
     std::string file_name = filename.substr(0, dotPos);
+    file_name += "_";
     file_name += argv[5];
     for (int i = 6; i < argc; i++) {
+        file_name += "_";
         file_name += argv[i];
     }
     file_name += ".txt";
-    std::cout << "File name: " << file_name << std::endl;
 
     // Check if the program was called from the test_instances.py file
     if (file_exists(file_name) && argc > 5 && strcmp(argv[5], "-preselected_params") != 0) {
@@ -71,7 +72,7 @@ void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& c
         std::ofstream file;
         file.open(file_name, std::ios::app);
         if (file.is_open()) {
-            file << value << std::endl;
+            file << value;
             file.close();
         } else {
             std::cerr << "Failed to open the file." << std::endl;

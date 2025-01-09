@@ -73,6 +73,9 @@ obt_point steiner_methods::insert_random(CDT& cdt) {
       }
     }
   }
+  Point a;
+  obt_point ret(-1, a);
+  return ret;
 }
 
 // Insert the projection point of the obtuse vertex onto the opposite edge

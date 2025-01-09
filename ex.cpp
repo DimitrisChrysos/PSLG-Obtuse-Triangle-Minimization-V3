@@ -118,8 +118,6 @@ effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_para
   auto it = std::next(obtuse_faces.begin(), random_index);
   CDT::Face_handle random_face = *it;
 
-  std::cout << "available_steiner_methods: " << available_steiner_methods.proj << available_steiner_methods.centr << available_steiner_methods.mid << available_steiner_methods.circum << available_steiner_methods.merge << std::endl;
-
   // Choose a steiner method:
   InsertionMethod steiner_method;
   SteinerMethodObtPoint method_point;
@@ -148,8 +146,6 @@ effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_para
     }
     found_method = true;
   }
-
-  std::cout << "Method2: " << static_cast<int>(steiner_method) << std::endl;
 
   // Use the method
   if (steiner_method == InsertionMethod::PROJECTION || 

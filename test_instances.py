@@ -15,10 +15,8 @@ def run_command(instance_name, method, steiner_methods):
         command.append(st_method)
 
     # Create a temporary txt file named from arg2_2 (probably usefull to fill it with the value of the output file)
-    # txt_filename = instance_name.replace(".instance.json", ".txt")
     txt_filename = instance_name.replace(".instance.json", "")
     txt_filename = txt_filename + "_" + method + "_" + "_".join(steiner_methods) + ".txt"
-    print("txt_filename:", txt_filename)
     with open(txt_filename, 'w') as file:
         pass
     # exit()
@@ -40,31 +38,11 @@ def run_command(instance_name, method, steiner_methods):
     with open(txt_filename, 'r') as file:
         data_out = file.read()
         value = data_out
-        print("Data from",(method, (steiner_methods)),"--->",data_out)
+        # print("Data from",(method, (steiner_methods)),"--->",data_out)
 
     # Remove the temporary txt file
     os.remove(txt_filename)
     return (value, (method, (steiner_methods)))
-
-
-# def run_method(method, instance_name):
-
-#     steiner_methods = ["-proj"]
-#     data1 = run_command(instance_name, method, steiner_methods)
-
-#     steiner_methods = ["-proj", "-circum", "-merge"]
-#     data2 = run_command(instance_name, method, steiner_methods)
-
-#     steiner_methods = ["-centr", "-mid"]
-#     data3 = run_command(instance_name, method, steiner_methods)
-
-#     steiner_methods = ["-proj", "-centr", "-mid", "-circum", "-merge"]
-#     data4 = run_command(instance_name, method, steiner_methods)
-
-#     # Compare the values of the outputs
-#     all_data = [data1, data2, data3, data4]
-#     data = min(all_data, key=lambda x: x[0])
-#     return data
 
 
 
@@ -89,20 +67,23 @@ def run_method(method, instance_name):
     return data
 
 
-# ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/output1.json -ant -proj -mid -centr -circum -merge
 
-instance_name = "simple-polygon_10_272aa6ea.instance.json"
-
-data_ls = run_method("-ls", instance_name)
-print("ls data:", data_ls)
-print("\n\n")
-
-data_sa = run_method("-sa", instance_name)
-print("sa data:", data_sa)
-print("\n\n")
-
-data_ant = run_method("-ant", instance_name)
-print("ant data:", data_ant)
-print("\n\n")
+def run_instances(instances):
+    for instance_name in instances:
+        print("Instance:", instance_name)
+        data_ls = run_method("-ls", instance_name)
+        print("\t- ls data:", data_ls)
+        data_sa = run_method("-sa", instance_name)
+        print("\t- sa data:", data_sa)
+        data_ant = run_method("-ant", instance_name)
+        print("\t- ant data:", data_ant)
+        print("\n\n")
 
 
+# Main
+instances = []
+instance_name1 = "simple-polygon_10_272aa6ea.instance.json"
+instance_name2 = "ortho_10_d2723dcc.instance.json"
+instances.append(instance_name1)
+instances.append(instance_name2)
+run_instances(instances)
