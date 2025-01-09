@@ -65,29 +65,36 @@ InsertionMethod choose_steiner_method(CDT& cdt, CDT::Face_handle face, double k,
   double p_midpoint = calculate_posibility(tsp.midpoint, h_midpoint, xi, psi, sum);
   double p_merge_obtuse = calculate_posibility(tsp.merge_obtuse, h_merge_obtuse, xi, psi, sum);
 
-  // Choose the method
-  double sum_of_probabilities = p_projection + p_circumcenter + p_midpoint + p_merge_obtuse;
+  // Adjust probabilities directly based on availability
+  double adjusted_p_projection = available_steiner_methods.proj ? p_projection : 0.0;
+  double adjusted_p_circumcenter = available_steiner_methods.circum ? p_circumcenter : 0.0;
+  double adjusted_p_midpoint = available_steiner_methods.mid ? p_midpoint : 0.0;
+  double adjusted_p_merge_obtuse = available_steiner_methods.merge ? p_merge_obtuse : 0.0;
+
+  // Compute sum of adjusted probabilities
+  double sum_of_adjusted_probabilities = adjusted_p_projection + adjusted_p_circumcenter + adjusted_p_midpoint + adjusted_p_merge_obtuse;
+
+  // Compute sum of probabilities and their previous
+  double sum_p1 = adjusted_p_projection;
+  double sum_p2 = sum_p1 + adjusted_p_circumcenter;
+  double sum_p3 = sum_p2 + adjusted_p_midpoint;
+  double sum_p4 = sum_p3 + adjusted_p_merge_obtuse;
+
+  // Generate a random number between 0 and sum_of_adjusted_probabilities
   std::random_device rd;
   std::mt19937 gen(rd());
-  std::uniform_real_distribution<> dis(0.0, sum_of_probabilities);
-  while(1) {
-    double random_number = dis(gen);
-    if (random_number <= p_projection) {
-      if (!available_steiner_methods.proj) continue;
-      return InsertionMethod::PROJECTION;
-    }
-    else if (random_number <= p_projection + p_circumcenter) {
-      if (!available_steiner_methods.circum) continue;
-      return InsertionMethod::CIRCUMCENTER;
-    }
-    else if (random_number <= p_projection + p_circumcenter + p_midpoint) {
-      if (!available_steiner_methods.mid) continue;
-      return InsertionMethod::MIDPOINT;
-    }
-    else {
-      if (!available_steiner_methods.merge) continue;
-      return InsertionMethod::MERGE_OBTUSE;
-    }
+  std::uniform_real_distribution<> dis(0.0, sum_of_adjusted_probabilities);
+  double random_number = dis(gen);
+
+  // Select the method based on sum probabilities
+  if (random_number <= sum_p1) {
+    return InsertionMethod::PROJECTION;
+  } else if (random_number <= sum_p2) {
+    return InsertionMethod::CIRCUMCENTER;
+  } else if (random_number <= sum_p3) {
+    return InsertionMethod::MIDPOINT;
+  } else if (random_number <= sum_p4) {
+    return InsertionMethod::MERGE_OBTUSE;
   }
 }
 
@@ -110,6 +117,8 @@ effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_para
   int random_index = dis(gen);
   auto it = std::next(obtuse_faces.begin(), random_index);
   CDT::Face_handle random_face = *it;
+
+  std::cout << "available_steiner_methods: " << available_steiner_methods.proj << available_steiner_methods.centr << available_steiner_methods.mid << available_steiner_methods.circum << available_steiner_methods.merge << std::endl;
 
   // Choose a steiner method:
   InsertionMethod steiner_method;
@@ -139,6 +148,8 @@ effective_ant improve_trianglulation(CDT& cdt, double k, ant_parameters ant_para
     }
     found_method = true;
   }
+
+  std::cout << "Method2: " << static_cast<int>(steiner_method) << std::endl;
 
   // Use the method
   if (steiner_method == InsertionMethod::PROJECTION || 

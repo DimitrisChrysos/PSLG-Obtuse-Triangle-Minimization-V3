@@ -31,9 +31,14 @@ obt_point steiner_methods::insert_random(CDT& cdt) {
   int obtuse_faces_visited = 0;
   int total_obtuse_count = count_obtuse_triangles(cdt);
 
-  CGAL::Random rand;
-  int random_face = rand.get_int(1, total_obtuse_count);
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> distrib(1, total_obtuse_count);
+  int random_face = distrib(gen);
 
+  CGAL::Random rand;
+  // int random_face = rand.get_int(1, total_obtuse_count);
+  // std::cout << "eeee????\n";
 
   for (CDT::Finite_faces_iterator fit = cdt.finite_faces_begin(); fit != cdt.finite_faces_end(); fit++) {
     CDT::Face_handle face = fit;
