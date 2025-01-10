@@ -729,7 +729,7 @@ void handle_methods(CDT& cdt,
 
 // Main 
 int main(int argc, char *argv[]) {
-  if (argc < 5) {
+  if (argc < 4) {
     std::cout << "Wrong number of arguments\n";
     return 1;
   }
@@ -756,15 +756,6 @@ int main(int argc, char *argv[]) {
   AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
   scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods);
 
-  // ////////TODO: delete later
-  // std::cout << "Available steiner methods: " << std::endl;
-  // std::cout << "Projection: " << available_steiner_methods.proj << std::endl;
-  // std::cout << "Centroid: " << available_steiner_methods.centr << std::endl;
-  // std::cout << "Midpoint: " << available_steiner_methods.mid << std::endl;
-  // std::cout << "Circumcenter: " << available_steiner_methods.circum << std::endl;
-  // std::cout << "Merge obtuse: " << available_steiner_methods.merge << std::endl;
-  // ////////
-
   // Create the Constrained Delaunay Triangulation (CDT)
   CDT cdt;
 
@@ -790,7 +781,11 @@ int main(int argc, char *argv[]) {
   // Find input category
   InputCategory input_category = find_input_category(cdt, additional_constraints);
   std::cout << "Input category: " << (int)input_category << std::endl;
-  // return 0; //TODO: delete later
+
+  // Used for the count_categories.py file
+  if (argc == 4) {
+    return 0;
+  }
 
   // Count the obtuse triangles
   std::cout << "Starting obtuse counter: " << count_obtuse_triangles(cdt) << std::endl;

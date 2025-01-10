@@ -150,6 +150,8 @@ void read_write_file::scan_config(int argc, char *argv[],
                     boost::property_tree::ptree& parameters_for_output, 
                     bool& delaunay, 
                     AvailableSteinerMethods& available_steiner_methods) {
+  
+  if (argc < 5) return; // Used for the count_categories.py file
 
   if (argc == 5) {
     method = get_method(root);
