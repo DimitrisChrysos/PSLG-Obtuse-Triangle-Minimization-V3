@@ -50,7 +50,7 @@ def run_method(method, instance_name):
     steiner_methods_list = [
         ["-proj"],
         ["-proj", "-circum", "-merge"],
-        ["-centr", "-mid"],
+        ["-proj", "-centr", "-mid"],
         ["-proj", "-centr", "-mid", "-circum", "-merge"],
     ]
 
@@ -66,28 +66,41 @@ def run_method(method, instance_name):
     data = min(results, key=lambda x: x[0])
     return data
 
-
+def find_variable_name(value):
+    for var_name, var_value in globals().items():
+        if var_value is value:
+            return var_name
 
 def run_instances(instances):
-    for instance_name in instances:
-        print("Instance:", instance_name)
-        data_ls = run_method("-ls", instance_name)
-        # print("\t- ls data:", data_ls)
-        data_sa = run_method("-sa", instance_name)
-        # print("\t- sa data:", data_sa)
-        data_ant = run_method("-ant", instance_name)
-        # print("\t- ant data:", data_ant)
+    category = find_variable_name(instances)
+    output_dir = "test_categories"
+    output_file = f"{output_dir}/{category}.txt"
+    os.makedirs(output_dir, exist_ok=True)
+    with open(output_file, "w") as file:
+        print("Category:", category)
+        file.write(f"Category: {category}\n")
+        for instance_name in instances:
+            file.write(f"Instance: {instance_name}\n")
+            print("Instance:", instance_name)
+            data_ls = run_method("-ls", instance_name)
+            # print("\t- ls data:", data_ls)
+            data_sa = run_method("-sa", instance_name)
+            # print("\t- sa data:", data_sa)
+            data_ant = run_method("-ant", instance_name)
+            # print("\t- ant data:", data_ant)
 
-        methods = {
-            "ls " + ", ".join(data_ls[1][1]): float(data_ls[0]),
-            "sa " + ", ".join(data_sa[1][1]): float(data_sa[0]),
-            "ant " + ", ".join(data_ant[1][1]): float(data_ant[0])
-        }
-        smallest_method = min(methods, key=methods.get)
-        smallest_value = methods[smallest_method]
-        print("Smallest method:", smallest_method)
-        # print("Smallest value:", smallest_value)
-        print("\n")
+            methods = {
+                "ls " + ", ".join(data_ls[1][1]): float(data_ls[0]),
+                "sa " + ", ".join(data_sa[1][1]): float(data_sa[0]),
+                "ant " + ", ".join(data_ant[1][1]): float(data_ant[0])
+            }
+            smallest_method = min(methods, key=methods.get)
+            # smallest_value = methods[smallest_method]
+            file.write(f"Smallest method: {smallest_method}\n")
+            print("Smallest method:", smallest_method)
+            # print("Smallest value:", smallest_value)
+            file.write("\n")
+            print("\n")
 
 # Category A -> Convex Boundary - No Constraints
 instances_A = ["point-set_10_4bcb7c21.instance.json", 

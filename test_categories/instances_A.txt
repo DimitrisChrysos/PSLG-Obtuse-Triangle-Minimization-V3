@@ -1,0 +1,31 @@
+Category: instances_A
+Instance: point-set_10_4bcb7c21.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_10_7451a2a9.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_20_fa3fd7e0.instance.json
+Smallest method: ant -proj, -circum, -merge
+
+Instance: point-set_40_8cbf31aa.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_40_9451c229.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_60_27bc003d.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_80_ff15444b.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_80_d77fb670.instance.json
+Smallest method: ls -proj
+
+Instance: point-set_100_dd67678e.instance.json
+Smallest method: ls -proj, -centr, -mid, -circum, -merge
+
+Instance: point-set_150_982c9ab3.instance.json
+Smallest method: ls -proj
+
