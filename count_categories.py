@@ -2,11 +2,11 @@ import subprocess
 import os
 
 
-countA = 0
-countB = 0
-countC = 0
-countD = 0
-countE = 0
+A = []
+B = []
+C = []
+D = []
+E = []
 folder = "challenge_instances_cgshop25"
 for file in os.listdir(folder):
     file_path = os.path.join(folder, file)
@@ -21,19 +21,26 @@ for file in os.listdir(folder):
         last_word = result.stdout.split()[-1] if result.stdout else ""
         # print("Last word from stdout:", last_word)
         if last_word == "0":
-            countA += 1
+            A.append(file)
         elif last_word == "1":
-            countB += 1
+            B.append(file)
         elif last_word == "2":
-            countC += 1
+            C.append(file)
         elif last_word == "3":
-            countD += 1
+            D.append(file)
         elif last_word == "4":
-            countE += 1
+            E.append(file)
 
 
-print(f"Count A: {countA}")
-print(f"Count B: {countB}")
-print(f"Count C: {countC}")
-print(f"Count D: {countD}")
-print(f"Count E: {countE}")
+def find_variable_name(value):
+    for var_name, var_value in globals().items():
+        if var_value is value:
+            return var_name
+
+categories = [A, B, C, D, E]
+for category in categories:
+    print(find_variable_name(category))
+    print(f"Count: {len(category)}")
+    for file in category:
+        print(file)
+    print("\n\n")

@@ -96,6 +96,9 @@ InsertionMethod choose_steiner_method(CDT& cdt, CDT::Face_handle face, double k,
   } else if (random_number <= sum_p4) {
     return InsertionMethod::MERGE_OBTUSE;
   }
+
+  // In case of an error, return the projection method
+  return InsertionMethod::PROJECTION;
 }
 
 // Improve the triangulation
