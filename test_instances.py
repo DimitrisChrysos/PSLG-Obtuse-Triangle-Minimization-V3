@@ -127,8 +127,8 @@ instances_B = ["simple-polygon-exterior-20_10_6fbd9669.instance.json",
 instances_C = ["simple-polygon-exterior_10_c5616894.instance.json",
                 "simple-polygon-exterior-20_10_8c4306da.instance.json",
                 "simple-polygon-exterior-20_60_28a85662.instance.json",
-                "simple-polygon-exterior-40_785575e7.instance.json",
-                "simple-polygon-exterior-40_ff947945.instance.json",
+                "simple-polygon-exterior-20_80_1c5fcde7.instance.json",
+                "simple-polygon-exterior_20_92dcd467.instance.json",
                 "simple-polygon-exterior-60_ba2c82c0.instance.json",
                 "simple-polygon-exterior-80_22d34c7e.instance.json",
                 "simple-polygon-exterior-100_f1740925.instance.json",
@@ -165,4 +165,4 @@ instances_E = ["simple-polygon_10_272aa6ea.instance.json",
 # instance_name2 = "ortho_10_d2723dcc.instance.json"
 # instances.append(instance_name1)
 # instances.append(instance_name2)
-run_instances(instances_A)
+run_instances(instances_C)
