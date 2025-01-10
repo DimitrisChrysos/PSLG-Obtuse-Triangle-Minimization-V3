@@ -132,23 +132,57 @@
 
 - Testing instances with their subsets of methods and steiner methods:
     1) Category A -> Convex Boundary - No Constraints
-        1. ./opt_triangulation -i challenge_instances_cgshop25/point-set_10_4bcb7c21.instance.json -o outputs/output1.json -preselected_params
-        2. 
-        3. 
-        4. 
-        5. 
-        6. 
-        7. 
-        8. 
-        9. 
-        10. 
+        - point-set_10_4bcb7c21.instance.json
+        - point-set_10_7451a2a9.instance.json
+        - point-set_20_fa3fd7e0.instance.json
+        - point-set_40_8cbf31aa.instance.json
+        - point-set_40_9451c229.instance.json
+        - point-set_60_27bc003d.instance.json
+        - point-set_80_ff15444b.instance.json
+        - point-set_80_d77fb670.instance.json
+        - point-set_100_dd67678e.instance.json
+        - point-set_150_982c9ab3.instance.json
     2) Category B -> Convex Boundary - Open Constrants
-        1. 
-        2. 
-        3. 
+        - simple-polygon-exterior-20_10_6fbd9669.instance.json
+        - simple-polygon-exterior-20_10_ce9152de.instance.json
+        - simple-polygon-exterior-20_20_4ddfa00e.instance.json
+        - simple-polygon-exterior-20_60_57858065.instance.json
+        - simple-polygon-exterior-20_100_512f0fc4.instance.json
+        - simple-polygon-exterior-20_100_8d1c2e30.instance.json
+        - simple-polygon-exterior-20_100_8ff7a64d.instance.json
     3) Category C -> Convex Boundary - Close Constraints
+        - simple-polygon-exterior_10_c5616894.instance.json
+        - simple-polygon-exterior-20_10_8c4306da.instance.json
+        - simple-polygon-exterior-20_60_28a85662.instance.json
+        - simple-polygon-exterior_40_785575e7.instance.json
+        - simple-polygon-exterior_40_ff947945.instance.json
+        - simple-polygon-exterior_60_ba2c82c0.instance.json
+        - simple-polygon-exterior_80_22d34c7e.instance.json
+        - simple-polygon-exterior_100_f1740925.instance.json
+        - simple-polygon-exterior_150_1301b82e.instance.json
+        - simple-polygon-exterior_250_a97729dd.instance.json
     4) Category D -> Not Convex Boundary - Parallel to Axes
+        - ortho_10_d2723dcc.instance.json
+        - ortho_20_5a9e8244.instance.json
+        - ortho_20_e2aff192.instance.json
+        - ortho_40_56a6f463.instance.json
+        - ortho_60_5c5796a0.instance.json
+        - ortho_60_c423f527.instance.json
+        - ortho_80_06ee55d4.instance.json
+        - ortho_100_bd1e4a14.instance.json
+        - ortho_150_53eb4022.instance.json
+        - ortho_250_3b977f7e.instance.json
     5) Category E -> Not Convex Boundary - No Rules
+        - simple-polygon_10_272aa6ea.instance.json
+        - simple-polygon_20_0dda68ed.instance.json
+        - simple-polygon_40_12969fc3.instance.json
+        - simple-polygon_60_17af118a.instance.json
+        - simple-polygon_80_7b8f6c4c.instance.json
+        - simple-polygon_100_6101abad.instance.json
+        - simple-polygon_100_cb23308c.instance.json
+        - simple-polygon_150_743d6b9c.instance.json
+        - simple-polygon_250_432b4814.instance.json
+        - simple-polygon_250_6e9d9c26.instance.json
     
 
 - github repo link: https://github.com/DimitrisChrysos/project-emiris-3.git
