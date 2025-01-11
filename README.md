@@ -154,8 +154,8 @@
         - simple-polygon-exterior_10_c5616894.instance.json
         - simple-polygon-exterior-20_10_8c4306da.instance.json
         - simple-polygon-exterior-20_60_28a85662.instance.json
-        - simple-polygon-exterior_40_785575e7.instance.json
-        - simple-polygon-exterior_40_ff947945.instance.json
+        - simple-polygon-exterior_20_92dcd467.instance.json
+        - simple-polygon-exterior_40_11434792.instance.json
         - simple-polygon-exterior_60_ba2c82c0.instance.json
         - simple-polygon-exterior_80_22d34c7e.instance.json
         - simple-polygon-exterior_100_f1740925.instance.json

@@ -41,7 +41,11 @@ namespace steiner_methods {
     // Insert a point at the midpoint of the longest edge
     obt_point insert_mid(CDT& cdt, CDT::Face_handle f1);
 
+    // Insert a random point inside a random obtuse face
     obt_point insert_random(CDT& cdt);
+
+    // Use the insert_random function
+    void use_insert_random(CDT& cdt);
 
     // Insert a point at the circumcenter of the triangle
     obt_face insert_circumcenter(CDT& cdt, FaceData f1);

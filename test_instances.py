@@ -14,12 +14,11 @@ def run_command(instance_name, method, steiner_methods):
     for st_method in steiner_methods:
         command.append(st_method)
 
-    # Create a temporary txt file named from arg2_2 (probably usefull to fill it with the value of the output file)
+    # Create a temporary txt file to fill it with the comparison value of the subprocess later 
     txt_filename = instance_name.replace(".instance.json", "")
     txt_filename = txt_filename + "_" + method + "_" + "_".join(steiner_methods) + ".txt"
     with open(txt_filename, 'w') as file:
         pass
-    # exit()
 
     # Run the command
     result = subprocess.run(command, capture_output=True, text=True)
@@ -44,14 +43,12 @@ def run_command(instance_name, method, steiner_methods):
     os.remove(txt_filename)
     return (value, (method, (steiner_methods)))
 
-
-
 def run_method(method, instance_name):
     steiner_methods_list = [
         ["-proj"],
         ["-proj", "-circum", "-merge"],
         ["-proj", "-centr", "-mid"],
-        ["-proj", "-centr", "-mid", "-circum", "-merge"],
+        ["-proj", "-centr", "-mid", "-circum", "-merge"]
     ]
 
     # Define a function to run a single command
@@ -82,12 +79,23 @@ def run_instances(instances):
         for instance_name in instances:
             file.write(f"Instance: {instance_name}\n")
             print("Instance:", instance_name)
-            data_ls = run_method("-ls", instance_name)
-            # print("\t- ls data:", data_ls)
-            data_sa = run_method("-sa", instance_name)
-            # print("\t- sa data:", data_sa)
-            data_ant = run_method("-ant", instance_name)
-            # print("\t- ant data:", data_ant)
+
+            # Run the methods
+            methods_list = [
+                ["-ls"],
+                ["-sa"],
+                ["-ant"]
+            ]
+
+            # Define a function to run a single command
+            def run_single_method(methods):
+                print("Running method:", methods[0])
+                return run_method(methods[0], instance_name)
+
+            # Execute the methods in parallel
+            with ThreadPoolExecutor() as executor:
+                results = list(executor.map(run_single_method, methods_list))
+            data_ls, data_sa, data_ant = results
 
             methods = {
                 "ls " + ", ".join(data_ls[1][1]): float(data_ls[0]),
@@ -95,10 +103,8 @@ def run_instances(instances):
                 "ant " + ", ".join(data_ant[1][1]): float(data_ant[0])
             }
             smallest_method = min(methods, key=methods.get)
-            # smallest_value = methods[smallest_method]
             file.write(f"Smallest method: {smallest_method}\n")
             print("Smallest method:", smallest_method)
-            # print("Smallest value:", smallest_value)
             file.write("\n")
             print("\n")
 
@@ -127,13 +133,13 @@ instances_B = ["simple-polygon-exterior-20_10_6fbd9669.instance.json",
 instances_C = ["simple-polygon-exterior_10_c5616894.instance.json",
                 "simple-polygon-exterior-20_10_8c4306da.instance.json",
                 "simple-polygon-exterior-20_60_28a85662.instance.json",
-                "simple-polygon-exterior-20_80_1c5fcde7.instance.json",
                 "simple-polygon-exterior_20_92dcd467.instance.json",
-                "simple-polygon-exterior-60_ba2c82c0.instance.json",
-                "simple-polygon-exterior-80_22d34c7e.instance.json",
-                "simple-polygon-exterior-100_f1740925.instance.json",
-                "simple-polygon-exterior-150_1301b82e.instance.json",
-                "simple-polygon-exterior-250_a97729dd.instance.json"]
+                "simple-polygon-exterior_40_11434792.instance.json",
+                "simple-polygon-exterior_60_ba2c82c0.instance.json",
+                "simple-polygon-exterior_80_22d34c7e.instance.json",
+                "simple-polygon-exterior_100_f1740925.instance.json",
+                "simple-polygon-exterior_150_1301b82e.instance.json",
+                "simple-polygon-exterior_250_a97729dd.instance.json"]
 
 # Category D -> Not Convex Boundary - Parallel to Axes
 instances_D = ["ortho_10_d2723dcc.instance.json",
@@ -160,9 +166,4 @@ instances_E = ["simple-polygon_10_272aa6ea.instance.json",
                 "simple-polygon_250_6e9d9c26.instance.json"]
 
 # Main
-# instances = []
-# instance_name1 = "simple-polygon_10_272aa6ea.instance.json"
-# instance_name2 = "ortho_10_d2723dcc.instance.json"
-# instances.append(instance_name1)
-# instances.append(instance_name2)
 run_instances(instances_C)

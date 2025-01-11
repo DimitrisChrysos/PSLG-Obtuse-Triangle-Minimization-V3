@@ -309,36 +309,12 @@ void ant_colony_optimization(CDT& cdt, ant_parameters ant_params, AvailableStein
 
   // Use the best triangulation to the starting cdt
   use_triangulation_ants(cdt, best_triangulation_ants, true);
-  int consec_insertions = 0;
-  if (count_obtuse_triangles(cdt)) {
-    while (consec_insertions < 5) {
-      int cur_cnt = count_obtuse_triangles(cdt);
-      if (!cur_cnt)
-        break;
-      int failed_attempts = 0;
-      CDT copy5(cdt);
-      obt_point pnt = insert_random(copy5);
-      while (count_obtuse_triangles(copy5) > cur_cnt) {
-        failed_attempts++;
-        if (failed_attempts == 5)
-          break;
-        CDT copy6(cdt);
-        pnt = insert_random(copy6);
-      }
-      if (failed_attempts == 5)
-        break;
-      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
-      cdt.random_used = true;
-      if (count_obtuse_triangles(cdt) == cur_cnt) {
-        consec_insertions++;
-      }
-      else {
-        consec_insertions = 0;
-      }
-    }
+  
+  // For the random method
+  use_insert_random(cdt);
+
+  std::cout << "\nFinal -> Obtuse Triangles: " << count_obtuse_triangles(cdt) << " || Steiner Points: " << cdt.steiner_x.size() << std::endl;
   }
-  std::cout << "\nFinal -> Obtuse Triangles: " << count_obtuse_triangles(cdt) << " || Steiner Points: " << best_triangulation_ants.size() << std::endl;
-}
 
 // Accept or decline something with the given probability
 bool accept_or_decline(double prob) {
@@ -478,34 +454,8 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
     }
   }
 
-  int consec_insertions = 0;
-  if (count_obtuse_triangles(cdt)) {
-    while (consec_insertions < 5) {
-      int cur_cnt = count_obtuse_triangles(cdt);
-      if (!cur_cnt)
-        break;
-      int failed_attempts = 0;
-      CDT copy5(cdt);
-      obt_point pnt = insert_random(copy5);
-      while (count_obtuse_triangles(copy5) > cur_cnt) {
-        failed_attempts++;
-        if (failed_attempts == 5)
-          break;
-        CDT copy6(cdt);
-        pnt = insert_random(copy6);
-      }
-      if (failed_attempts == 5)
-        break;
-      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
-      cdt.random_used = true;
-      if (count_obtuse_triangles(cdt) == cur_cnt) {
-        consec_insertions++;
-      }
-      else {
-        consec_insertions = 0;
-      }
-    }
-  }
+  // For the random method
+  use_insert_random(cdt);
 }
 
 
@@ -629,38 +579,12 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
     }
   }
 
-  // Edw prepei na valw thn tyxaiopoihsh
-  consec_insertions = 0;
-  if (count_obtuse_triangles(cdt) && i < L) {
-    while (consec_insertions < 5) {
-      int cur_cnt = count_obtuse_triangles(cdt);
-      if (!cur_cnt)
-        break;
-      int failed_attempts = 0;
-      CDT copy5(cdt);
-      obt_point pnt = insert_random(copy5);
-      while (count_obtuse_triangles(copy5) > cur_cnt) {
-        failed_attempts++;
-        if (failed_attempts == 5)
-          break;
-        CDT copy6(cdt);
-        pnt = insert_random(copy6);
-      }
-      if (failed_attempts == 5)
-        break;
-      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
-      cdt.random_used = true;
-      if (count_obtuse_triangles(cdt) == cur_cnt) {
-        consec_insertions++;
-      }
-      else {
-        consec_insertions = 0;
-      }
-    }
+  // For the random method
+  if (i < L) {
+    use_insert_random(cdt);
   }
 
-
-  std::cout << "After " << i << " Steiner Insertions | obt_triangles: " << count_obtuse_triangles(cdt) << std::endl;
+  std::cout << "After " << cdt.steiner_x.size() << " Steiner Insertions | obt_triangles: " << count_obtuse_triangles(cdt) << std::endl;
 }
 
 // Create the region_boundary_polygon polygon
@@ -742,7 +666,7 @@ int main(int argc, char *argv[]) {
 
   // Choose the file to read
   pt::read_json(argv[2], root); // read the json file
-  
+
   // Read the json file
   std::string instance_uid = get_instance_uid(root);
   int num_points = get_num_points(root);

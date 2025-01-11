@@ -1,6 +1,6 @@
 Category: instances_C
 Instance: simple-polygon-exterior_10_c5616894.instance.json
-Smallest method: sa -proj
+Smallest method: ls -proj
 
 Instance: simple-polygon-exterior-20_10_8c4306da.instance.json
 Smallest method: ls -proj
@@ -8,10 +8,24 @@ Smallest method: ls -proj
 Instance: simple-polygon-exterior-20_60_28a85662.instance.json
 Smallest method: ls -proj
 
-Instance: simple-polygon-exterior-20_80_1c5fcde7.instance.json
-Smallest method: ls -proj
-
 Instance: simple-polygon-exterior_20_92dcd467.instance.json
 Smallest method: sa -proj, -circum, -merge
 
-Instance: simple-polygon-exterior-60_ba2c82c0.instance.json
+Instance: simple-polygon-exterior_40_11434792.instance.json
+Smallest method: ls -proj
+
+Instance: simple-polygon-exterior_60_ba2c82c0.instance.json
+Smallest method: ls -proj
+
+Instance: simple-polygon-exterior_80_22d34c7e.instance.json
+Smallest method: ls -proj
+
+Instance: simple-polygon-exterior_100_f1740925.instance.json
+Smallest method: ls -proj, -circum, -merge
+
+Instance: simple-polygon-exterior_150_1301b82e.instance.json
+Smallest method: sa -proj
+
+Instance: simple-polygon-exterior_250_a97729dd.instance.json
+Smallest method: sa -proj, -circum, -merge
+

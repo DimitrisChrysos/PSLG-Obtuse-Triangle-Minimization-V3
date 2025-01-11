@@ -37,8 +37,6 @@ obt_point steiner_methods::insert_random(CDT& cdt) {
   int random_face = distrib(gen);
 
   CGAL::Random rand;
-  // int random_face = rand.get_int(1, total_obtuse_count);
-  // std::cout << "eeee????\n";
 
   for (CDT::Finite_faces_iterator fit = cdt.finite_faces_begin(); fit != cdt.finite_faces_end(); fit++) {
     CDT::Face_handle face = fit;
@@ -49,22 +47,21 @@ obt_point steiner_methods::insert_random(CDT& cdt) {
         Point p1 = face->vertex(1)->point();
         Point p2 = face->vertex(2)->point();
 
-        // Generate random barycentric coordinates
+        // Use random barycentric coordinates
         double u = rand.get_double();
         double v = rand.get_double();
         if (u + v > 1) {  // Ensure the point is inside the triangle
-            u = 1 - u;
-            v = 1 - v;
+          u = 1 - u;
+          v = 1 - v;
         }
         double w = 1 - u - v;
 
-        // Compute the random point using barycentric interpolation
+        // Create random point and insert it
         Point random_point = Point(
-            u * p0.x() + v * p1.x() + w * p2.x(),
-            u * p0.y() + v * p1.y() + w * p2.y()
+          u * p0.x() + v * p1.x() + w * p2.x(),
+          u * p0.y() + v * p1.y() + w * p2.y()
         );
 
-        // Insert the random point into the CDT
         cdt.insert_no_flip(random_point);
 
 
@@ -73,9 +70,59 @@ obt_point steiner_methods::insert_random(CDT& cdt) {
       }
     }
   }
+  // Default error case
   Point a;
   obt_point ret(-1, a);
   return ret;
+}
+
+void steiner_methods::use_insert_random(CDT& cdt) {
+  int consec_insertions = 0;
+  // If there are still obtuse triangles
+  if (count_obtuse_triangles(cdt)) {
+
+    // If you insert 5 points without improvement, end the process
+    while (consec_insertions < 5) {
+      int cur_cnt = count_obtuse_triangles(cdt);
+
+      // If there are no more obtuse triangles, end the process
+      if (!cur_cnt)
+        break;
+
+      // If 5 consecutive points increase the obtuse count, stop the randomization
+      int failed_attempts = 0;
+      Point a;
+      obt_point pnt(-1, a);
+      int new_obtuse_count;
+      do {
+        failed_attempts++;
+        if (failed_attempts == 6)
+          break;
+        CDT copy(cdt);
+        pnt = insert_random(copy);
+        new_obtuse_count = count_obtuse_triangles(copy);
+      } while (new_obtuse_count > cur_cnt);
+
+      // If 5 consecutive random points increased the obtuse count, break
+      if (failed_attempts == 6)
+        break;
+      
+      // If an error occured, break
+      if (pnt.obt_count == -1) 
+        break;
+
+      // Insert point
+      cdt.insert_no_flip(pnt.insrt_pt);
+      cdt.insert_steiner_x_y(pnt.insrt_pt.x(), pnt.insrt_pt.y());
+      cdt.random_used = true;
+      if (count_obtuse_triangles(cdt) == cur_cnt) {
+        consec_insertions++;
+      }
+      else {
+        consec_insertions = 0;
+      }
+    }
+  }
 }
 
 // Insert the projection point of the obtuse vertex onto the opposite edge

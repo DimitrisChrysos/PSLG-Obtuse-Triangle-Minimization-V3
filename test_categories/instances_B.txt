@@ -9,7 +9,7 @@ Instance: simple-polygon-exterior-20_20_4ddfa00e.instance.json
 Smallest method: ls -proj
 
 Instance: simple-polygon-exterior-20_60_57858065.instance.json
-Smallest method: ls -proj, -centr, -mid, -circum, -merge
+Smallest method: ls -proj
 
 Instance: simple-polygon-exterior-20_100_512f0fc4.instance.json
 Smallest method: ls -proj

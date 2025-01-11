@@ -172,10 +172,10 @@ void read_write_file::scan_config(int argc, char *argv[],
       } 
       else if (strcmp(argv[5], "-sa") == 0) {
         method = "sa";
-        parameters = {{"alpha", 3}, {"beta", 0.3}, {"L", 200}};
+        parameters = {{"alpha", 3}, {"beta", 0.3}, {"L", 100}};
         parameters_for_output.put("alpha", 3);
         parameters_for_output.put("beta", 0.3);
-        parameters_for_output.put("L", 200);
+        parameters_for_output.put("L", 100);
       }
       else if (strcmp(argv[5], "-ant") == 0) {
         method = "ant";
