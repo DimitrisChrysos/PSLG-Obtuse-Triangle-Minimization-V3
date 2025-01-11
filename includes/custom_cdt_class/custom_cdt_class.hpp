@@ -45,7 +45,7 @@ namespace custom_cdt_class {
       std::vector<K::FT> steiner_y;
 
       bool random_used = false;
-
+      double value_pre_random = -1;
 
 
       // Constructors

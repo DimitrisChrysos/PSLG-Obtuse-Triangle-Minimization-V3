@@ -2720,6 +2720,9 @@ includes/steiner_methods/CMakeFiles/steiner_methods.dir/steiner_methods.cpp.o
  /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/read_write_file/read_write_file.hpp
  /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/custom_cdt_class/custom_cdt_class.hpp
  /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/utils/utils.hpp
+ /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/input_categories/input_categories.hpp
+ /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/custom_cdt_class/custom_cdt_class.hpp
+ /home/dimitris/Documents/project emiris/project3/project-emiris-3/includes/utils/utils.hpp
  /usr/local/include/boost/json.hpp
  /usr/local/include/boost/json/detail/config.hpp
  /usr/local/include/boost/config/auto_link.hpp

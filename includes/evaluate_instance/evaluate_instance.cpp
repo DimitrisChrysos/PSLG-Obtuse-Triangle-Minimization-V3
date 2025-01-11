@@ -65,7 +65,7 @@ void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& c
         std::ofstream file;
         file.open(file_name, std::ios::app);
         if (file.is_open()) {
-            file << value;
+            file << value << " " << cdt.value_pre_random;
             file.close();
         } else {
             std::cerr << "Failed to open the file." << std::endl;

@@ -137,32 +137,32 @@ void read_write_file::choose_auto(std::string& method,
 
   if (input_category == InputCategory::CONVEX_NO_CONSTR) {
     method = "local";
-    parameters = {{"L", 150}};
-    parameters_for_output.put("L", 150);
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
   }
   else if (input_category == InputCategory::CONVEX_OPEN_CONSTR) {
     method = "local";
-    parameters = {{"L", 150}};
-    parameters_for_output.put("L", 150);
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
   }
   else if (input_category == InputCategory::CONVEX_CLOSED_CONSTR) {
     method = "local";
-    parameters = {{"L", 150}};
-    parameters_for_output.put("L", 150);
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
   }
   else if (input_category == InputCategory::NOT_CONVEX_PARALLEL) {
     method = "local";
-    parameters = {{"L", 150}};
-    parameters_for_output.put("L", 150);
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
   }
   else if (input_category == InputCategory::NOT_CONVEX_NO_RULES) {
     method = "local";
-    parameters = {{"L", 150}};
-    parameters_for_output.put("L", 150);
+    parameters = {{"L", 90}};
+    parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
   }
 }

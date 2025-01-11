@@ -2,7 +2,7 @@ import subprocess
 import os
 from concurrent.futures import ThreadPoolExecutor
 
-def run_command(instance_name, method, steiner_methods):
+def run_command(instance_name, method, steiner_methods, dictionary_after_random, dictionary_before_random):
     # Command to run
     program = "./opt_triangulation"
     arg1 = "-i"
@@ -34,16 +34,20 @@ def run_command(instance_name, method, steiner_methods):
 
     # Open the file and print it's data
     value = ""
+    value_pre_random = ""
     with open(txt_filename, 'r') as file:
         data_out = file.read()
-        value = data_out
+        value = data_out.split()[0]
+        value_pre_random = data_out.split()[1]
         # print("Data from",(method, (steiner_methods)),"--->",data_out)
 
     # Remove the temporary txt file
     os.remove(txt_filename)
+    dictionary_after_random[instance_name + method + "".join(steiner_methods)] = value
+    dictionary_before_random[instance_name + method + "".join(steiner_methods)] = value_pre_random
     return (value, (method, (steiner_methods)))
 
-def run_method(method, instance_name):
+def run_method(method, instance_name, dictionary_after_random, dictionary_before_random):
     steiner_methods_list = [
         ["-proj"],
         ["-proj", "-circum", "-merge"],
@@ -53,7 +57,7 @@ def run_method(method, instance_name):
 
     # Define a function to run a single command
     def run_single_command(steiner_methods):
-        return run_command(instance_name, method, steiner_methods)
+        return run_command(instance_name, method, steiner_methods, dictionary_after_random, dictionary_before_random)
 
     # Execute the commands in parallel
     with ThreadPoolExecutor() as executor:
@@ -68,7 +72,7 @@ def find_variable_name(value):
         if var_value is value:
             return var_name
 
-def run_instances(instances):
+def run_instances(instances, dictionary_after_random, dictionary_before_random):
     category = find_variable_name(instances)
     output_dir = "test_categories"
     output_file = f"{output_dir}/{category}.txt"
@@ -90,7 +94,7 @@ def run_instances(instances):
             # Define a function to run a single command
             def run_single_method(methods):
                 print("Running method:", methods[0])
-                return run_method(methods[0], instance_name)
+                return run_method(methods[0], instance_name, dictionary_after_random, dictionary_before_random)
 
             # Execute the methods in parallel
             with ThreadPoolExecutor() as executor:
@@ -108,62 +112,48 @@ def run_instances(instances):
             file.write("\n")
             print("\n")
 
+
+
 # Category A -> Convex Boundary - No Constraints
-instances_A = ["point-set_10_4bcb7c21.instance.json", 
-                "point-set_10_7451a2a9.instance.json", 
-                "point-set_20_fa3fd7e0.instance.json", 
-                "point-set_40_8cbf31aa.instance.json", 
-                "point-set_40_9451c229.instance.json", 
-                "point-set_60_27bc003d.instance.json", 
-                "point-set_80_ff15444b.instance.json", 
-                "point-set_80_d77fb670.instance.json", 
-                "point-set_100_dd67678e.instance.json", 
-                "point-set_150_982c9ab3.instance.json"]
+instances_A = None
+with open("tests_categorized/A.txt", "r") as file:
+    instances_A = [line.strip() for line in file]
 
 # Category B -> Convex Boundary - Open Constrants
-instances_B = ["simple-polygon-exterior-20_10_6fbd9669.instance.json",
-                "simple-polygon-exterior-20_10_ce9152de.instance.json",
-                "simple-polygon-exterior-20_20_4ddfa00e.instance.json",
-                "simple-polygon-exterior-20_60_57858065.instance.json",
-                "simple-polygon-exterior-20_100_512f0fc4.instance.json",
-                "simple-polygon-exterior-20_100_8d1c2e30.instance.json",
-                "simple-polygon-exterior-20_100_8ff7a64d.instance.json"]
+instances_B = None
+with open("tests_categorized/B.txt", "r") as file:
+    instances_B = [line.strip() for line in file]
 
 # Category C -> Convex Boundary - Close Constraints
-instances_C = ["simple-polygon-exterior_10_c5616894.instance.json",
-                "simple-polygon-exterior-20_10_8c4306da.instance.json",
-                "simple-polygon-exterior-20_60_28a85662.instance.json",
-                "simple-polygon-exterior_20_92dcd467.instance.json",
-                "simple-polygon-exterior_40_11434792.instance.json",
-                "simple-polygon-exterior_60_ba2c82c0.instance.json",
-                "simple-polygon-exterior_80_22d34c7e.instance.json",
-                "simple-polygon-exterior_100_f1740925.instance.json",
-                "simple-polygon-exterior_150_1301b82e.instance.json",
-                "simple-polygon-exterior_250_a97729dd.instance.json"]
+instances_C = None
+with open("tests_categorized/C.txt", "r") as file:
+    instances_C = [line.strip() for line in file]
 
 # Category D -> Not Convex Boundary - Parallel to Axes
-instances_D = ["ortho_10_d2723dcc.instance.json",
-                "ortho_20_5a9e8244.instance.json",
-                "ortho_20_e2aff192.instance.json",
-                "ortho_40_56a6f463.instance.json",
-                "ortho_60_5c5796a0.instance.json",
-                "ortho_60_c423f527.instance.json",
-                "ortho_80_06ee55d4.instance.json",
-                "ortho_100_bd1e4a14.instance.json",
-                "ortho_150_53eb4022.instance.json",
-                "ortho_250_3b977f7e.instance.json"]
+instances_D = None
+with open("tests_categorized/D.txt", "r") as file:
+    instances_D = [line.strip() for line in file]
 
 # Category E -> Not Convex Boundary - No Rules
-instances_E = ["simple-polygon_10_272aa6ea.instance.json",
-                "simple-polygon_20_0dda68ed.instance.json",
-                "simple-polygon_40_12969fc3.instance.json",
-                "simple-polygon_60_17af118a.instance.json",
-                "simple-polygon_80_7b8f6c4c.instance.json",
-                "simple-polygon_100_6101abad.instance.json",
-                "simple-polygon_100_cb23308c.instance.json",
-                "simple-polygon_150_743d6b9c.instance.json",
-                "simple-polygon_250_432b4814.instance.json",
-                "simple-polygon_250_6e9d9c26.instance.json"]
+instances_E = None
+with open("tests_categorized/E.txt", "r") as file:
+    instances_E = [line.strip() for line in file]
+
+
 
 # Main
-run_instances(instances_E)
+dictionary_after_random = {}
+dictionary_before_random = {}
+instances = instances_A
+run_instances(instances, dictionary_after_random, dictionary_before_random)
+
+# run_command("simple-polygon_10_272aa6ea.instance.json", "-ls", ["-proj"], dictionary_after_random, dictionary_before_random)
+# run_command("point-set_10_4bcb7c21.instance.json", "-ls", ["-proj", "-merge"], dictionary_after_random)
+
+category = find_variable_name(instances)
+output_dir = "instances_combinations_values"
+output_file = f"{output_dir}/{category}.txt"
+os.makedirs(output_dir, exist_ok=True)
+with open(output_file, "w") as file:
+    for key, value in dictionary_after_random.items():
+        file.write(f"{key}: {value} {dictionary_before_random[key]}\n")

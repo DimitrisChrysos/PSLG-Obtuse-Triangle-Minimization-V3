@@ -104,12 +104,16 @@ void steiner_methods::use_insert_random(CDT& cdt) {
       } while (new_obtuse_count > cur_cnt);
 
       // If 5 consecutive random points increased the obtuse count, break
-      if (failed_attempts == 6)
+      if (failed_attempts == 6) {
+        cdt.value_pre_random = -1;
         break;
+      }
       
       // If an error occured, break
-      if (pnt.obt_count == -1) 
+      if (pnt.obt_count == -1) {
+        cdt.value_pre_random = -1;
         break;
+      }
 
       // Insert point
       cdt.insert_no_flip(pnt.insrt_pt);
@@ -122,6 +126,9 @@ void steiner_methods::use_insert_random(CDT& cdt) {
         consec_insertions = 0;
       }
     }
+  }
+  else {
+    cdt.value_pre_random = -1;
   }
 }
 

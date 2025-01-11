@@ -39,8 +39,16 @@ def find_variable_name(value):
 
 categories = [A, B, C, D, E]
 for category in categories:
-    print(find_variable_name(category))
-    print(f"Count: {len(category)}")
-    for file in category:
-        print(file)
-    print("\n\n")
+    letter = find_variable_name(category)
+    output_dir = "tests_categorized"
+    output_file = f"{output_dir}/{letter}.txt"
+    os.makedirs(output_dir, exist_ok=True)
+    with open(output_file, "w") as file:
+        print(letter)
+        print(f"Count: {len(category)}")
+        for filename in category:
+            print(filename)
+            file.write(filename)
+            if filename != category[-1]:
+                file.write("\n")
+        print("\n\n")

@@ -3018,6 +3018,9 @@ CMakeFiles/opt_triangulation.dir/ex.cpp.o: ex.cpp \
   includes/read_write_file/read_write_file.hpp \
   includes/custom_cdt_class/custom_cdt_class.hpp \
   includes/utils/utils.hpp \
+  includes/input_categories/input_categories.hpp \
+  includes/custom_cdt_class/custom_cdt_class.hpp \
+  includes/utils/utils.hpp \
   /usr/local/include/boost/json.hpp \
   /usr/local/include/boost/json/detail/config.hpp \
   /usr/local/include/boost/config/auto_link.hpp \
@@ -3205,14 +3208,10 @@ CMakeFiles/opt_triangulation.dir/ex.cpp.o: ex.cpp \
   /usr/include/x86_64-linux-gnu/c++/11/bits/opt_random.h \
   /usr/include/c++/11/bits/random.tcc \
   includes/input_categories/input_categories.hpp \
-  includes/custom_cdt_class/custom_cdt_class.hpp \
-  includes/utils/utils.hpp \
   includes/evaluate_instance/evaluate_instance.hpp \
   includes/custom_cdt_class/custom_cdt_class.hpp \
   includes/utils/utils.hpp
 
-
-includes/input_categories/input_categories.hpp:
 
 /usr/include/c++/11/bits/random.tcc:
 
@@ -3431,6 +3430,8 @@ includes/steiner_methods/steiner_methods.hpp:
 /usr/local/include/boost/config/auto_link.hpp:
 
 /usr/local/include/boost/json/detail/config.hpp:
+
+includes/input_categories/input_categories.hpp:
 
 includes/read_write_file/read_write_file.hpp:
 

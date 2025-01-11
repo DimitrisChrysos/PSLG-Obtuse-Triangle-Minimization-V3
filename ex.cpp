@@ -311,6 +311,7 @@ void ant_colony_optimization(CDT& cdt, ant_parameters ant_params, AvailableStein
   use_triangulation_ants(cdt, best_triangulation_ants, true);
   
   // For the random method
+  cdt.value_pre_random = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
   use_insert_random(cdt);
 
   std::cout << "\nFinal -> Obtuse Triangles: " << count_obtuse_triangles(cdt) << " || Steiner Points: " << cdt.steiner_x.size() << std::endl;
@@ -455,6 +456,7 @@ void sim_annealing(CDT& cdt, double a, double b, int L, AvailableSteinerMethods 
   }
 
   // For the random method
+  cdt.value_pre_random = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
   use_insert_random(cdt);
 }
 
@@ -580,6 +582,7 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
   }
 
   // For the random method
+  cdt.value_pre_random = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
   if (i < L) {
     use_insert_random(cdt);
   }
