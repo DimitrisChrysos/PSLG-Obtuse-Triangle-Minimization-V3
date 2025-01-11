@@ -166,4 +166,4 @@ instances_E = ["simple-polygon_10_272aa6ea.instance.json",
                 "simple-polygon_250_6e9d9c26.instance.json"]
 
 # Main
-run_instances(instances_C)
+run_instances(instances_E)

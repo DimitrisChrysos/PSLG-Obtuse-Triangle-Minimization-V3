@@ -15,15 +15,8 @@ double evaluate_instance::calculate_average_rate_of_convergence(int total_number
 
 void evaluate_instance::calculate_rate_of_convergence(CDT& cdt_with_new_steiner, int old_obtuse_count, int old_steiner_count) {
 
-    ///TODO: handle the case of the first steiner point, because then "steiner_count" will be zero
-    ///TODO: handle the case (if needed) that with only one steiner point, the obtuse triangles are 0
     if (old_steiner_count == 0) return;
-
-    // if steiner_count is the same return
     if (old_steiner_count == cdt_with_new_steiner.steiner_x.size()) return;
-
-    ///TODO: Handle the case where the the obtuse triangles are 0 after the new steiner
-    ///TODO: If the obtuse triangles are 0, don't add this rate of convergence to the sum
     int obtuse_count_with_new_steiner = count_obtuse_triangles(cdt_with_new_steiner);
     if (obtuse_count_with_new_steiner == 0) return;
 

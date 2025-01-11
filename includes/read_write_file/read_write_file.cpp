@@ -132,14 +132,39 @@ boost::json::object ptree_to_json(const boost::property_tree::ptree& pt) {
 void read_write_file::choose_auto(std::string& method, 
                     std::list<std::pair<std::string, double>>& parameters, 
                     boost::property_tree::ptree& parameters_for_output, 
-                    AvailableSteinerMethods& available_steiner_methods) {
+                    AvailableSteinerMethods& available_steiner_methods,
+                    InputCategory input_category) {
 
-  ///TODO: This needs proper implementation
-  std::cout << "Using preselected parameters\n";  // for auto (preselected params)
-  method = "local";
-  parameters = {{"L", 90}};
-  parameters_for_output.put("L", 90);
-  available_steiner_methods = {true, true, true, true, true};
+  if (input_category == InputCategory::CONVEX_NO_CONSTR) {
+    method = "local";
+    parameters = {{"L", 150}};
+    parameters_for_output.put("L", 150);
+    available_steiner_methods = {true, false, false, false, false};
+  }
+  else if (input_category == InputCategory::CONVEX_OPEN_CONSTR) {
+    method = "local";
+    parameters = {{"L", 150}};
+    parameters_for_output.put("L", 150);
+    available_steiner_methods = {true, false, false, false, false};
+  }
+  else if (input_category == InputCategory::CONVEX_CLOSED_CONSTR) {
+    method = "local";
+    parameters = {{"L", 150}};
+    parameters_for_output.put("L", 150);
+    available_steiner_methods = {true, false, false, false, false};
+  }
+  else if (input_category == InputCategory::NOT_CONVEX_PARALLEL) {
+    method = "local";
+    parameters = {{"L", 150}};
+    parameters_for_output.put("L", 150);
+    available_steiner_methods = {true, false, false, false, false};
+  }
+  else if (input_category == InputCategory::NOT_CONVEX_NO_RULES) {
+    method = "local";
+    parameters = {{"L", 150}};
+    parameters_for_output.put("L", 150);
+    available_steiner_methods = {true, false, false, false, false};
+  }
 }
 
 // Scan the configuration from the argv arguments
@@ -149,7 +174,8 @@ void read_write_file::scan_config(int argc, char *argv[],
                     std::list<std::pair<std::string, double>>& parameters, 
                     boost::property_tree::ptree& parameters_for_output, 
                     bool& delaunay, 
-                    AvailableSteinerMethods& available_steiner_methods) {
+                    AvailableSteinerMethods& available_steiner_methods,
+                    InputCategory input_category) {
   
   if (argc < 5) return; // Used for the count_categories.py file
 
@@ -162,7 +188,7 @@ void read_write_file::scan_config(int argc, char *argv[],
   }
   else {
     if (strcmp(argv[5], "-preselected_params") == 0) {
-      choose_auto(method, parameters, parameters_for_output, available_steiner_methods);
+      choose_auto(method, parameters, parameters_for_output, available_steiner_methods, input_category);
     }
     else {
       if (strcmp(argv[5], "-ls") == 0) {

@@ -1,9 +1,9 @@
 Category: instances_D
 Instance: ortho_10_d2723dcc.instance.json
-Smallest method: sa -proj, -centr, -mid, -circum, -merge
+Smallest method: sa -proj, -circum, -merge
 
 Instance: ortho_20_5a9e8244.instance.json
-Smallest method: sa -proj, -centr, -mid
+Smallest method: sa -proj
 
 Instance: ortho_20_e2aff192.instance.json
 Smallest method: ls -proj
@@ -12,20 +12,20 @@ Instance: ortho_40_56a6f463.instance.json
 Smallest method: ls -proj
 
 Instance: ortho_60_5c5796a0.instance.json
-Smallest method: sa -proj
+Smallest method: ls -proj
 
 Instance: ortho_60_c423f527.instance.json
-Smallest method: sa -proj
+Smallest method: ls -proj
 
 Instance: ortho_80_06ee55d4.instance.json
-Smallest method: sa -proj, -circum, -merge
+Smallest method: sa -proj, -centr, -mid, -circum, -merge
 
 Instance: ortho_100_bd1e4a14.instance.json
-Smallest method: sa -proj, -centr, -mid, -circum, -merge
+Smallest method: sa -proj, -centr, -mid
 
 Instance: ortho_150_53eb4022.instance.json
 Smallest method: sa -proj, -circum, -merge
 
 Instance: ortho_250_3b977f7e.instance.json
-Smallest method: sa -proj, -centr, -mid, -circum, -merge
+Smallest method: sa -proj, -circum, -merge
 

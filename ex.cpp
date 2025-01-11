@@ -676,13 +676,7 @@ int main(int argc, char *argv[]) {
   std::string num_constraints = get_num_constraints(root);
   std::list<std::pair<int, int>> additional_constraints = get_additional_constraints(root);
   std::list<std::pair<int, int>> constraints = combine_constraints(region_boundary, additional_constraints);
-  std::string method;
-  std::list<std::pair<std::string, double>> parameters;
-  boost::property_tree::ptree parameters_for_output;
-  bool delaunay;
-  AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
-  scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods);
-
+ 
   // Create the Constrained Delaunay Triangulation (CDT)
   CDT cdt;
 
@@ -708,6 +702,15 @@ int main(int argc, char *argv[]) {
   // Find input category
   InputCategory input_category = find_input_category(cdt, additional_constraints);
   std::cout << "Input category: " << (int)input_category << std::endl;
+
+  // Scan Config
+  std::string method;
+  std::list<std::pair<std::string, double>> parameters;
+  boost::property_tree::ptree parameters_for_output;
+  bool delaunay;
+  AvailableSteinerMethods available_steiner_methods = {false, false, false, false, false};
+  scan_config(argc, argv, root, method, parameters, parameters_for_output, delaunay, available_steiner_methods, input_category);
+
 
   // Used for the count_categories.py file
   if (argc == 4) {

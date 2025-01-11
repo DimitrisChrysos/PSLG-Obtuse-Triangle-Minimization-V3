@@ -3,6 +3,7 @@
 
 #include "../custom_cdt_class/custom_cdt_class.hpp"
 #include "../utils/utils.hpp"
+#include "../input_categories/input_categories.hpp"
 #include <boost/json.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -14,6 +15,7 @@ typedef CDT::Point Point;
 typedef CDT::Edge Edge;
 
 using namespace utils;
+using namespace input_categories;
 
 namespace read_write_file {
     class AvailableSteinerMethods {
@@ -55,7 +57,8 @@ namespace read_write_file {
     void choose_auto(std::string& method, 
                     std::list<std::pair<std::string, double>>& parameters, 
                     boost::property_tree::ptree& parameters_for_output, 
-                    AvailableSteinerMethods& available_steiner_methods);
+                    AvailableSteinerMethods& available_steiner_methods,
+                    InputCategory input_category);
 
     // Scan the configuration from the argv arguments
     void scan_config(int argc, char *argv[], 
@@ -64,7 +67,8 @@ namespace read_write_file {
                     std::list<std::pair<std::string, double>>& parameters, 
                     boost::property_tree::ptree& parameters_for_output, 
                     bool& delaunay, 
-                    AvailableSteinerMethods& available_steiner_methods);
+                    AvailableSteinerMethods& available_steiner_methods,
+                    InputCategory input_category);
 
     // Create the output file
     void write_output(CDT& cdt, 
