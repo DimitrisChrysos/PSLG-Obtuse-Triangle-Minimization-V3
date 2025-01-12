@@ -2,20 +2,25 @@ import subprocess
 import os
 from concurrent.futures import ThreadPoolExecutor
 
-def run_command(instance_name, method, steiner_methods, dictionary_after_random, dictionary_before_random):
+def run_command(instance_name, method, steiner_methods, dictionary_after_random, dictionary_before_random, output = False):
     # Command to run
+    name = instance_name.replace(".instance.json", "")
     program = "./opt_triangulation"
     arg1 = "-i"
     arg2 = "challenge_instances_cgshop25/" + instance_name
     arg3 = "-o"
-    arg4 = "outputs/output1.json "
+    arg4 = ""
+    if (output):
+        arg4 = f"outputs/test_instances/{name}.json"
+    else:
+        arg4 = "outputs/temp.json"
     arg5 = method
     command = [program, arg1, arg2, arg3, arg4, arg5]
     for st_method in steiner_methods:
         command.append(st_method)
 
     # Create a temporary txt file to fill it with the comparison value of the subprocess later 
-    txt_filename = instance_name.replace(".instance.json", "")
+    txt_filename = name
     txt_filename = txt_filename + "_" + method + "_" + "_".join(steiner_methods) + ".txt"
     with open(txt_filename, 'w') as file:
         pass
@@ -102,15 +107,24 @@ def run_instances(instances, dictionary_after_random, dictionary_before_random):
             data_ls, data_sa, data_ant = results
 
             methods = {
-                "ls " + ", ".join(data_ls[1][1]): float(data_ls[0]),
-                "sa " + ", ".join(data_sa[1][1]): float(data_sa[0]),
-                "ant " + ", ".join(data_ant[1][1]): float(data_ant[0])
+                "-ls " + ", ".join(data_ls[1][1]): float(data_ls[0]),
+                "-sa " + ", ".join(data_sa[1][1]): float(data_sa[0]),
+                "-ant " + ", ".join(data_ant[1][1]): float(data_ant[0])
             }
             smallest_method = min(methods, key=methods.get)
             file.write(f"Smallest method: {smallest_method}\n")
-            print("Smallest method:", smallest_method)
+            print("Smallest method", smallest_method)
             file.write("\n")
             print("\n")
+            
+            parts = smallest_method.split(" ", 1)
+            method_used = parts[0]
+            sp_methods = [flag.strip() for flag in parts[1].split(",")]
+            # print("instance_name:", instance_name)
+            # print("method_used:", method_used)
+            # print("sp_methods:", sp_methods)
+            run_command(instance_name, method_used, sp_methods, dictionary_after_random, dictionary_before_random, True)
+
 
 
 
@@ -144,7 +158,7 @@ with open("tests_categorized/E.txt", "r") as file:
 # Main
 dictionary_after_random = {}
 dictionary_before_random = {}
-instances = instances_A
+instances = instances_D
 run_instances(instances, dictionary_after_random, dictionary_before_random)
 
 # run_command("simple-polygon_10_272aa6ea.instance.json", "-ls", ["-proj"], dictionary_after_random, dictionary_before_random)
