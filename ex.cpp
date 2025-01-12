@@ -582,8 +582,8 @@ void local_search(CDT& cdt, int L, AvailableSteinerMethods available_steiner_met
   }
 
   // For the random method
-  cdt.value_pre_random = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
   if (i < L) {
+    cdt.value_pre_random = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
     use_insert_random(cdt);
   }
 
