@@ -1,5 +1,205 @@
 Category: instances_C
 Instance: simple-polygon-exterior-20_20_0f96fb2c.instance.json
-Smallest method: ls -proj
+Smallest method: -sa -proj, -circum, -merge
 
 Instance: simple-polygon-exterior_20_87cff693.instance.json
+Smallest method: -ant -proj
+
+Instance: simple-polygon-exterior_20_2a7302a0.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior_40_11434792.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_53ad6d23.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_20_52abeef5.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_6088b7a9.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_150_fb998503.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior-20_250_0c9fa44e.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior-20_10_8c4306da.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_20_1e719235.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_40_b9ab4f03.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_28a85662.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_100_686dd044.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_8221c868.instance.json
+Smallest method: -ls -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon-exterior-20_150_41e0c5f0.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior_20_c820ed5d.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_20_eb63a5b6.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_20_7520a1da.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior_10_c5616894.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_80_1c5fcde7.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_20_92dcd467.instance.json
+Smallest method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon-exterior_20_ff791267.instance.json
+Smallest method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon-exterior_60_881cf585.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_20_e64ff8fc.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior_60_1a49dffa.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_250_c0a19392.instance.json
+Smallest method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon-exterior_40_785575e7.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior-20_80_889602ae.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_57cd1db6.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_250_4441b4ca.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior_60_8670ab75.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_60_ba2c82c0.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_150_89d077ac.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior-20_40_65de7236.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_20_c27f41dd.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_40_7685a35e.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_250_eb5ab92f.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior-20_40_5faf6985.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior_150_1301b82e.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior_10_74050e4d.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_40_8ad14096.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_250_a97729dd.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior-20_10_15783346.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior_100_f1740925.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_80_22d34c7e.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_250_3f7ba0d3.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior_40_ca26cbd4.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_80_f6e462fb.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_60_494df14f.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_10_40642b31.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior-20_100_c256488f.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_60_e6f13145.instance.json
+Smallest method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon-exterior-20_100_8bfbe418.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_10_8b098f5e.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_80_d87f15e8.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_100_37aaf06f.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_100_7ed1ca87.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_10_46c44a43.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior_10_310dc6c7.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior-20_150_7768dd44.instance.json
+Smallest method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon-exterior-20_10_868921c7.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_40_84415804.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior_10_a5f0f2fc.instance.json
+Smallest method: -sa -proj
+
+Instance: simple-polygon-exterior_40_ff947945.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_40_317d3f6d.instance.json
+Smallest method: -ls -proj
+
+Instance: simple-polygon-exterior-20_10_c6728228.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon-exterior-20_250_823ed1ae.instance.json
+Smallest method: -sa -proj, -circum, -merge
+
