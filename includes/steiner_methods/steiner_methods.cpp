@@ -105,13 +105,15 @@ void steiner_methods::use_insert_random(CDT& cdt) {
 
       // If 5 consecutive random points increased the obtuse count, break
       if (failed_attempts == 6) {
-        cdt.value_pre_random = -1;
+        if (!cdt.random_used)
+          cdt.value_pre_random = -1;
         break;
       }
       
       // If an error occured, break
       if (pnt.obt_count == -1) {
-        cdt.value_pre_random = -1;
+        if (!cdt.random_used)
+          cdt.value_pre_random = -1;
         break;
       }
 
