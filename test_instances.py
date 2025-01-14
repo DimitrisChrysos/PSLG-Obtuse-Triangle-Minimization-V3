@@ -202,7 +202,7 @@ with open("tests_categorized/E.txt", "r") as file:
 # Main
 dictionary_after_random = {}
 dictionary_before_random = {}
-instances = instances_B
+instances = instances_C
 run_instances(instances, dictionary_after_random, dictionary_before_random)
 
 # run_command("simple-polygon_10_272aa6ea.instance.json", "-ls", ["-proj"], dictionary_after_random, dictionary_before_random)
