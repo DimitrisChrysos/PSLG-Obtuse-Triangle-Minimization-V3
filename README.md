@@ -89,10 +89,10 @@
          5) argv[6+] = "-merge"
    5) Παράδειγμα για την auto μέθοδο:
       - ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/temp.json -preselected_params
-- alpha = 3
-- beta = 0.3
-- github repo link: https://github.com/DimitrisChrysos/project-emiris-3.git
-- Πλήρη στοιχεία των φοιτητών που ανέπτυξαν την εργασία:
 
+
+- github repo link: https://github.com/DimitrisChrysos/project-emiris-3.git
+
+- Πλήρη στοιχεία των φοιτητών που ανέπτυξαν την εργασία:
 1) Ονοματεπώνυμο: Αναστάσιος Μουμουλίδης - ΑΜ: 1115202100108
 2) Ονοματεπώνυμο: Δημήτριος Χρυσός - ΑΜ: 1115202100275

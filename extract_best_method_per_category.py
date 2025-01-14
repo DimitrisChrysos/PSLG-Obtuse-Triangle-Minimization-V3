@@ -5,7 +5,7 @@ def extract_best_method_per_category(file_path):
     method_counter = Counter()
     with open(file_path, 'r') as file:
         for line in file:
-            if line.startswith("Smallest method:"):
+            if line.startswith("Best method:"):
                 methods = line.strip().split(":")[1].strip()
                 method_counter[methods] += 1
     most_common = method_counter.most_common(1)

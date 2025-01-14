@@ -140,30 +140,37 @@ void read_write_file::choose_auto(std::string& method,
     parameters = {{"L", 90}};
     parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
+    std::cout << "Input is Convex with No Constraints, using local search with L = 90 and projection\n";
   }
   else if (input_category == InputCategory::CONVEX_OPEN_CONSTR) {
     method = "local";
     parameters = {{"L", 90}};
     parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
+    std::cout << "Input is Convex with Open Constraints, using local search with L = 90 and projection\n";
   }
   else if (input_category == InputCategory::CONVEX_CLOSED_CONSTR) {
     method = "local";
     parameters = {{"L", 90}};
     parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
+    std::cout << "Input is Convex with Closed Constraints, using local search with L = 90 and projection\n";
   }
   else if (input_category == InputCategory::NOT_CONVEX_PARALLEL) {
     method = "local";
     parameters = {{"L", 90}};
     parameters_for_output.put("L", 90);
     available_steiner_methods = {true, false, false, false, false};
+    std::cout << "Input is Not Convex with Parallel Constraints, using local search with L = 90 and projection\n";
   }
   else if (input_category == InputCategory::NOT_CONVEX_NO_RULES) {
-    method = "local";
-    parameters = {{"L", 90}};
-    parameters_for_output.put("L", 90);
+    method = "sa";
+    parameters = {{"alpha", 3}, {"beta", 0.3}, {"L", 100}};
+    parameters_for_output.put("alpha", 3);
+    parameters_for_output.put("beta", 0.3);
+    parameters_for_output.put("L", 100);
     available_steiner_methods = {true, false, false, false, false};
+    std::cout << "Input is Not Convex with No Rules, using simulated annealing with alpha = 3, beta = 0.3, L = 100 and projection\n";
   }
 }
 
