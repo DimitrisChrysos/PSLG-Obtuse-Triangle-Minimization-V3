@@ -1,0 +1,67 @@
+Category: instances_E
+Instance: simple-polygon_100_cb23308c.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_60_17af118a.instance.json
+Best method: -ls -proj
+
+Instance: simple-polygon_10_297edd18.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_100_4ee8f447.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_100_6101abad.instance.json
+Best method: -ant -proj
+
+Instance: simple-polygon_250_6e9d9c26.instance.json
+Best method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon_20_4bd3c2e5.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_250_432b4814.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_150_c0cf1e9c.instance.json
+Best method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon_150_f24b0f8e.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_250_c02755d7.instance.json
+Best method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon_80_48c9df87.instance.json
+Best method: -ant -proj, -centr, -mid
+
+Instance: simple-polygon_150_b42a5724.instance.json
+Best method: -sa -proj, -circum, -merge
+
+Instance: simple-polygon_10_272aa6ea.instance.json
+Best method: -sa -proj, -centr, -mid
+
+Instance: simple-polygon_80_7b8f6c4c.instance.json
+Best method: -ls -proj
+
+Instance: simple-polygon_40_12969fc3.instance.json
+Best method: -ls -proj
+
+Instance: simple-polygon_20_0dda68ed.instance.json
+Best method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon_150_743d6b9c.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_100_4b4ba391.instance.json
+Best method: -sa -proj
+
+Instance: simple-polygon_20_35585ee3.instance.json
+Best method: -sa -proj, -centr, -mid, -circum, -merge
+
+Instance: simple-polygon_60_0347cd75.instance.json
+Best method: -ls -proj
+
+Instance: simple-polygon_10_f2c8d74a.instance.json
+Best method: -sa -proj, -circum, -merge
+
