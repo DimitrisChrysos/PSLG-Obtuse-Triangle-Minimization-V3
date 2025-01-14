@@ -730,6 +730,7 @@ int main(int argc, char *argv[]) {
   // Function for the case that the program was called from the test_instances.py file
   for_test_instances_dot_py(argc, argv, cdt);
 
+
   // Output the results
   write_output(cdt, points, method, parameters_for_output, argv[4]);
   // CGAL::draw(cdt);

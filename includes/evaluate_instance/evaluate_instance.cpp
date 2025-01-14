@@ -36,6 +36,10 @@ bool evaluate_instance::file_exists(const std::string& file_name) {
 
 void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& cdt) {
 
+    if (argc < 6) {
+        return;
+    }
+
     // Get the name of the file to append
     std::string file_name_unedited = argv[2];
     size_t lastSlashPos = file_name_unedited.find_last_of('/');
@@ -49,6 +53,7 @@ void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& c
         file_name += argv[i];
     }
     file_name += ".txt";
+
 
     // Check if the program was called from the test_instances.py file
     if (file_exists(file_name) && argc > 5 && strcmp(argv[5], "-preselected_params") != 0) {

@@ -6,22 +6,22 @@ from cgshop2025_pyutils import verify
 
 import json
 
-import argparse
+# import argparse
 
 
 
-parser = argparse.ArgumentParser(description="Verify the output of the triangulation program.")
-parser.add_argument("input_filepath", type=str, help="Path to the input JSON file.")
-parser.add_argument("output_filepath", type=str, help="Path to the output JSON file.")
-args = parser.parse_args()
-input_filepath = args.input_filepath
-output_filepath = args.output_filepath
+# parser = argparse.ArgumentParser(description="Verify the output of the triangulation program.")
+# parser.add_argument("input_filepath", type=str, help="Path to the input JSON file.")
+# parser.add_argument("output_filepath", type=str, help="Path to the output JSON file.")
+# args = parser.parse_args()
+# input_filepath = args.input_filepath
+# output_filepath = args.output_filepath
 
-# input_filepath = "old_tests_and_outputs/input_ls.json"
+input_filepath = "challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json"
 # input_filepath = "test_instances_ls/instance_test_4.json"
 # input_filepath = "challenge_instances_cgshop25/point-set_40_ae33a7ea.instance.json"
 
-# output_filepath = "old_tests_and_outputs/outputs/output_ls.json"
+output_filepath = "outputs/test_instances/simple-polygon_10_272aa6ea.json"
 # output_filepath = "outputs/test_instances_ls/output4.json"
 # output_filepath = "outputs/output1.json"
 

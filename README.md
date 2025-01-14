@@ -63,33 +63,20 @@
   2) make
 
 - Οδηγίες χρήσης του προγράμματος:
-  1) Για το example τρέχουμε:
-     - ls: ./opt_triangulation -i input_ls.json -o outputs/output_ls.json
-     - sa: ./opt_triangulation -i input_sa.json -o outputs/output_sa.json
-     - ant: ./opt_triangulation -i input_ant.json -o outputs/output_ant.json
-  2) Για τα tests:
-     - ls: ./opt_triangulation -i tests_ls/instance_1.json -o outputs/tests_ls/output1.json
-     - sa: ./opt_triangulation -i tests_sa/instance_1.json -o outputs/tests_sa/output1.json
-     - ant: ./opt_triangulation -i tests_ant/instance_1.json -o outputs/tests_ant/output1.json
-     - Αντίστοιχα αλλάζουμε του αριθμούς 1, για όποιο test θέλουμε
-  3) Για τα test_instances:
-     - ls: ./opt_triangulation -i test_instances_ls/instance_test_1.json -o outputs/test_instances_ls/output1.json
-     - sa: ./opt_triangulation -i test_instances_sa/instance_test_1.json -o outputs/test_instances_sa/output1.json
-     - ant: ./opt_triangulation -i test_instances_ant/instance_test_1.json -o outputs/test_instances_ant/output1.json
-     - Αντίστοιχα αλλάζουμε του αριθμούς 1, για όποιο test θέλουμε
-   4) Arguments:
-      1. argument 5:
+   1) Για το απλό παράδειγμα τρέχουμε:
+     - ./opt_triangulation -i input.json -o outputs/temp.json
+   2) Παράδειγμα για την auto μέθοδο:
+      - ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/temp.json -preselected_params
+   3) Εξήγηση των arguments για τη συγκεκριμένη επιλογή μεθόδων:
+      1. argument 5 για την auto ή την επιλογή της μεθόδου:
          1) argv[5] = "-preselected_params"
-         2) argv[5] = "-ls" (or) "-sa" (or) "-ant" // to choose the method
+         2) argv[5] = "-ls" (or) "-sa" (or) "-ant"
       2. argument 6 και τα επόμενα χρησιμοποιούνται για να διαλέξουμε ποιοι μεθόδοι steiner είναι διαθέσημοι:
          1) argv[6+] = "-proj"
          2) argv[6+] = "-centr"
          3) argv[6+] = "-mid"
          4) argv[6+] = "-circum"
          5) argv[6+] = "-merge"
-   5) Παράδειγμα για την auto μέθοδο:
-      - ./opt_triangulation -i challenge_instances_cgshop25/simple-polygon_10_272aa6ea.instance.json -o outputs/temp.json -preselected_params
-
 
 - github repo link: https://github.com/DimitrisChrysos/project-emiris-3.git
 
