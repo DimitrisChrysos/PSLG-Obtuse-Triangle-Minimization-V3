@@ -53,19 +53,21 @@ void evaluate_instance::for_test_instances_dot_py(int argc, char *argv[], CDT& c
     // Check if the program was called from the test_instances.py file
     if (file_exists(file_name) && argc > 5 && strcmp(argv[5], "-preselected_params") != 0) {
         
-        double value;
+        double value_rate;
+        double value_energy;
         if (count_obtuse_triangles(cdt) == 0) {
-            value = calculate_average_rate_of_convergence(cdt.steiner_x.size());
+            value_rate = calculate_average_rate_of_convergence(cdt.steiner_x.size());
+            value_energy = -1;
         }
         else {
-            value = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
+            value_rate = -1;
+            value_energy = calculate_energy(count_obtuse_triangles(cdt), cdt.steiner_x.size());
         }
-        std::cout << "value: " << value << std::endl;
 
         std::ofstream file;
         file.open(file_name, std::ios::app);
         if (file.is_open()) {
-            file << value << " " << cdt.value_pre_random;
+            file << value_rate << " " << value_energy << " " << cdt.value_pre_random;
             file.close();
         } else {
             std::cerr << "Failed to open the file." << std::endl;
