@@ -2,6 +2,9 @@
 
 This C++ project implements an adaptive framework for generating non-obtuse triangulations of Planar Straight Line Graphs (PSLGs) using various metaheuristic methods. It was developed for the course “Ανάπτυξη Λογισμικού για Δύσκολα Αλγοριθμικά Προβλήματα”, targeting high-quality triangulations for CGSHOP 2025 competition instances.
 
+### Note:
+- Check README.txt and report.pdf for more details.
+
 ---
 
 ## 👥 Team
