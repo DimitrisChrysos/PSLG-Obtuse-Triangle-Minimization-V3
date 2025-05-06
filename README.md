@@ -119,7 +119,7 @@ make
 
 ## 📌 GitHub Repository
 
-🔗 [github.com/DimitrisChrysos/project-emiris-3](https://github.com/DimitrisChrysos/project-emiris-3.git)
+🔗 [repository](https://github.com/DimitrisChrysos/PSLG-Obtuse-Triangle-Minimization)
 
 ---
 
