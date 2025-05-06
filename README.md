@@ -1,4 +1,4 @@
-# 📐 opt_triangulation — Adaptive Steiner Point Insertion with Randomized Rescue Strategies (CGSHOP 2025)
+# 📐 Adaptive Steiner Point Insertion for Minimization of Obtuse Triangles in Planar Straight Line Graphs (PSLGS) (CGSHOP 2025)
 
 This C++ project implements an adaptive framework for generating non-obtuse triangulations of Planar Straight Line Graphs (PSLGs) using various metaheuristic methods. It was developed for the course “Ανάπτυξη Λογισμικού για Δύσκολα Αλγοριθμικά Προβλήματα”, targeting high-quality triangulations for CGSHOP 2025 competition instances.
 
