@@ -1,6 +1,6 @@
 # 📐 Adaptive Steiner Point Insertion for Minimization of Obtuse Triangles in Planar Straight Line Graphs (PSLGS) (CGSHOP 2025)
 
-This C++ project implements an adaptive framework for generating non-obtuse triangulations of Planar Straight Line Graphs (PSLGs) using various metaheuristic methods. It was developed for the course “Ανάπτυξη Λογισμικού για Δύσκολα Αλγοριθμικά Προβλήματα”, targeting high-quality triangulations for CGSHOP 2025 competition instances.
+This C++ project implements an adaptive framework for generating non-obtuse triangulations of Planar Straight Line Graphs (PSLGs) using various metaheuristic methods. It was developed for the course **Software Development for Algorithmic Problems**, targeting high-quality triangulations for the CGSHOP 2025 competition instances.
 
 ### Note:
 - Check README.txt and report.pdf for more details.
@@ -65,7 +65,7 @@ When local methods fail to converge, **randomized Steiner point insertion** is t
 ## 🔀 Randomization Strategy
 
 If initial strategies fail:
-- Random triangle is selected among remaining obtuse ones
+- A random triangle is selected among the remaining obtuse ones
 - Random barycentric coordinates generate a candidate point
 - Point is tested; accepted only if it reduces obtuse angles
 - Max 5 failed attempts before termination
@@ -110,7 +110,7 @@ make
 
 ## ✅ Features
 
-- Auto-selection of best method per instance type
+- Auto-selection of the best method per instance type
 - Evaluation via convergence rate or triangulation energy
 - Full CGSHOP2025-compatible I/O
 - Randomization for escaping local optima
